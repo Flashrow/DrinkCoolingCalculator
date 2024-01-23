@@ -1,4 +1,5 @@
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
         google()
         mavenCentral()
@@ -15,4 +16,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "Drink Cooling Calculator"
 include(":app")
- 
+include(":data")
+include(":core")
+include(":feature")
+include(":test")
