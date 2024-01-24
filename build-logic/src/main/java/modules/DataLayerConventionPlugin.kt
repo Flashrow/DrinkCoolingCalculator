@@ -15,7 +15,7 @@ class DataLayerConventionPlugin : Plugin<Project> {
                  apply(HiltConventionPlugin::class.java)
              }
             dependencies {
-                implementation(rootProject.project("core:data"))
+//                implementation(rootProject.project("core:data"))
             }
         }
     }

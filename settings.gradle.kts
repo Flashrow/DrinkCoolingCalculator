@@ -17,6 +17,9 @@ dependencyResolutionManagement {
 rootProject.name = "Drink Cooling Calculator"
 include(":app")
 include(":data")
-include(":core")
 include(":feature")
 include(":test")
+include(":core:data")
+include(":core:domain")
+include(":core:ui")
+include(":core:common")

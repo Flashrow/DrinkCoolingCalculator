@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "pl.flashrow.feature"
+    namespace = "pl.flashrow.presentation"
     compileSdk = 34
 
     defaultConfig {

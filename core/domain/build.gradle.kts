@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "pl.flashrow.data"
+    namespace = "pl.flashrow.domain"
     compileSdk = 34
 
     defaultConfig {
