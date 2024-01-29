@@ -40,5 +40,9 @@ gradlePlugin {
             id = "me.flashrow.library"
             implementationClass = "LibraryConventionPlugin"
         }
+        register("featurePlugin") {
+            id = "me.flashrow.feature"
+            implementationClass = "FeatureConventionPlugin"
+        }
     }
 }

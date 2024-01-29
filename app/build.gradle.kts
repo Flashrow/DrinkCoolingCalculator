@@ -1,6 +1,4 @@
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
     id("me.flashrow.application")
     id("me.flashrow.application.compose")
     id("me.flashrow.hilt")
@@ -9,12 +7,9 @@ plugins {
 
 android {
     namespace = "pl.flashrow.drinkcoolingcalculator"
-    compileSdk = 34
 
     defaultConfig {
         applicationId = "pl.flashrow.drinkcoolingcalculator"
-        minSdk = 27
-        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -41,7 +36,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -57,4 +51,6 @@ dependencies {
     androidTestImplementation(libs.junit4)
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)
+
+    implementation(rootProject.project(":core:designsystem"))
 }

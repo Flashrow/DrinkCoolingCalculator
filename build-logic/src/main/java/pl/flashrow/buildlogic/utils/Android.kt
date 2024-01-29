@@ -5,10 +5,10 @@ import org.gradle.api.JavaVersion
 
 internal fun configureAndroid(commonExtension: CommonExtension<*, *, *, *>) {
     commonExtension.apply {
-        compileSdk = 33
+        compileSdk = 34
 
         defaultConfig {
-            minSdk = 30
+            minSdk = 29
             testInstrumentationRunner = "com.google.samples.modularization.testing.HiltTestRunner"
         }
 

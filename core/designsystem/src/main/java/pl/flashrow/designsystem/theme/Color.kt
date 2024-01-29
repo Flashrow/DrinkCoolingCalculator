@@ -1,4 +1,4 @@
-package pl.flashrow.drinkcoolingcalculator.theme
+package pl.flashrow.designsystem.theme
 
 import androidx.compose.ui.graphics.Color
 
