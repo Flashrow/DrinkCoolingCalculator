@@ -1,11 +1,11 @@
 package pl.flashrow.calculator.presentation
 
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
-public fun CalculatorScreen (
+fun CalculatorScreen (
 
 ) {
     val viewModel: CalculatorViewModel = hiltViewModel()
@@ -15,4 +15,10 @@ public fun CalculatorScreen (
 @Composable
 private fun CalculatorContent() {
 
+}
+
+@Preview
+@Composable
+private fun CalculatorPreview(){
+    CalculatorContent()
 }

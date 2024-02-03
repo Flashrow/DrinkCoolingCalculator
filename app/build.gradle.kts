@@ -44,6 +44,8 @@ dependencies {
     implementation(libs.compose.ui.graphics)
     implementation(libs.compose.ui.tooling.preview)
     implementation(libs.material3)
+    implementation(libs.androidx.core.splashscreen)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -53,4 +55,5 @@ dependencies {
     debugImplementation(libs.ui.test.manifest)
 
     implementation(rootProject.project(":core:designsystem"))
+    implementation(rootProject.project(":feature:calculator"))
 }

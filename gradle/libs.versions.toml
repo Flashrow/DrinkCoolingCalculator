@@ -20,6 +20,7 @@ androidxComposeMaterial3 = "1.1.2"
 androidxActivityCompose = "1.8.2"
 androidxNavigation = "2.7.4"
 hiltNavigation = "1.1.0"
+splashscreen = "1.0.1"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
@@ -46,6 +47,7 @@ androidx-navigation = { group = "androidx.navigation", name = "navigation-compos
 hilt-navigation = {group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigation"}
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "jetbrains-kotlinGradlePlugin" }
 material3 = { module = "androidx.compose.material3:material3"}
+androidx-compose-material3-windowSizeClass = { group = "androidx.compose.material3", name = "material3-window-size-class" }
 junit4 = { module = "androidx.compose.ui:ui-test-junit4"}
 ui-tooling = { module = "androidx.compose.ui:ui-tooling"}
 ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest"}
@@ -54,6 +56,7 @@ material = { group = "com.google.android.material", name = "material", version.r
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-android-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
 androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation" }
+androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "splashscreen" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
