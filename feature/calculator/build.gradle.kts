@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "pl.flashrow.calculator"
+    namespace = "pl.flashrow.dcc.feature.calculator"
 }
 
 dependencies {

@@ -1,4 +1,4 @@
-import org.apache.groovy.json.internal.Chr.add
+
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalogsExtension
@@ -19,6 +19,10 @@ class FeatureConventionPlugin : Plugin<Project>{
             val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
             dependencies {
                 implementation(rootProject.project("core:ui"))
+                implementation(rootProject.project("core:designsystem"))
+                implementation(rootProject.project("core:model"))
+                implementation(rootProject.project("core:domain"))
+                implementation(rootProject.project("core:resources"))
 
                 implementation(libs.findLibrary("hilt-navigation").get())
                 implementation(libs.findLibrary("androidx-lifecycle-runtime-ktx").get())

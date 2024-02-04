@@ -1,6 +1,5 @@
 package pl.flashrow.drinkcoolingcalculator.ui
 
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
@@ -21,9 +20,7 @@ fun DccApp(
 ) {
     DccBackground {
         val snackbarHostState = remember { SnackbarHostState() }
-        Scaffold { it
-            DccNavHost()
-        }
+        DccNavHost(appState = appState)
     }
 }
 

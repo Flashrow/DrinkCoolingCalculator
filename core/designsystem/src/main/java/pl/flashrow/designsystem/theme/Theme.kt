@@ -46,6 +46,7 @@ fun DccTheme(
             val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
+
         else -> if (darkTheme) DarkColorScheme else LightColorScheme
     }
     val view = LocalView.current
@@ -62,11 +63,13 @@ fun DccTheme(
         tonalElevation = 2.dp,
     )
 
-    CompositionLocalProvider (
+    CompositionLocalProvider(
         LocalBackgroundTheme provides defaultBackgroundTheme,
-    ) {MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
-        content = content
-    )}
+    ) {
+        MaterialTheme(
+            colorScheme = colorScheme,
+            typography = Typography,
+            content = content
+        )
+    }
 }

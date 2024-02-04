@@ -1,6 +1,5 @@
 package pl.flashrow.calculator.navigation
 
-import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
@@ -13,11 +12,6 @@ fun NavController.navigateToCalculator(navOptions: NavOptions) = navigate(CALCUL
 
 fun NavGraphBuilder.calculatorScreen(){
     composable(route = CALCULATOR_ROUTE){
-        CalculatorRoute()
+        CalculatorScreen()
     }
-}
-
-@Composable
-internal fun CalculatorRoute() {
-    CalculatorScreen()
 }

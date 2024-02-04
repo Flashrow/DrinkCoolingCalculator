@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "pl.flashrow.test"
+    namespace = "pl.flashrow.dcc.test"
     compileSdk = 34
 
     defaultConfig {
