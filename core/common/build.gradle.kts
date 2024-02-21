@@ -5,9 +5,8 @@ plugins {
 }
 
 android {
-    namespace = "pl.flashrow.dcc.core.model"
+    namespace = "pl.flashrow.dcc.core.common"
 }
 
 dependencies {
-    implementation(rootProject.project(":core:data"))
 }

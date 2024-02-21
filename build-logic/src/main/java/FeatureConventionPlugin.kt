@@ -23,6 +23,7 @@ class FeatureConventionPlugin : Plugin<Project>{
                 implementation(rootProject.project("core:model"))
                 implementation(rootProject.project("core:domain"))
                 implementation(rootProject.project("core:resources"))
+                implementation(rootProject.project("core:common"))
 
                 implementation(libs.findLibrary("hilt-navigation").get())
                 implementation(libs.findLibrary("androidx-lifecycle-runtime-ktx").get())

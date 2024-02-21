@@ -11,11 +11,14 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import pl.flashrow.dcc.core.model.DrinkType
 import pl.flashrow.dcc.feature.calculator.R
 import pl.flashrow.designsystem.Dimens
 import pl.flashrow.ui.DccThemedBackground
@@ -25,11 +28,15 @@ fun CalculatorScreen(
 
 ) {
     val viewModel: CalculatorViewModel = hiltViewModel()
-    CalculatorContent()
+    LaunchedEffect(Unit) {
+        viewModel.onEvent(CalculatorUiState.Event.Init)
+    }
+    val state = viewModel.uiState.collectAsState().value
+    CalculatorContent(state)
 }
 
 @Composable
-private fun CalculatorContent() {
+private fun CalculatorContent(state: CalculatorUiState.State) {
     DccThemedBackground {
         Column(modifier = Modifier.padding(horizontal = Dimens.baseMargin)) {
             Text(
@@ -41,7 +48,7 @@ private fun CalculatorContent() {
                 Icon(Icons.Outlined.SportsBar, contentDescription = "")
                 Text("Wybierz rodzaj napoju", style = MaterialTheme.typography.titleMedium)
             }
-            ImageCarousel(listOf())
+            ImageCarousel(state.drinkTypes)
         }
     }
 }
@@ -49,5 +56,35 @@ private fun CalculatorContent() {
 @Preview
 @Composable
 private fun CalculatorPreview() {
-    CalculatorContent()
+    CalculatorContent(
+        CalculatorUiState.State(
+            listOf(
+                DrinkType(
+                    resourceId = pl.flashrow.dcc.core.resources.R.drawable.beer_icon,
+                    name = "Beer",
+                    alcoholPercentage = 0.04f
+                ),
+                DrinkType(
+                    resourceId = pl.flashrow.dcc.core.resources.R.drawable.spirit_icon,
+                    name = "Spirit",
+                    alcoholPercentage = 0.40f
+                ),
+                DrinkType(
+                    resourceId = pl.flashrow.dcc.core.resources.R.drawable.wine_icon,
+                    name = "Wine",
+                    alcoholPercentage = 0.13f
+                ),
+                DrinkType(
+                    resourceId = pl.flashrow.dcc.core.resources.R.drawable.tea_icon,
+                    name = "Tea",
+                    alcoholPercentage = 0f
+                ),
+                DrinkType(
+                    resourceId = pl.flashrow.dcc.core.resources.R.drawable.soft_drink_icon,
+                    name = "Soft drink",
+                    alcoholPercentage = 0f
+                ),
+            )
+        )
+    )
 }

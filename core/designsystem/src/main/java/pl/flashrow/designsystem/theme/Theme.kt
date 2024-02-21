@@ -32,6 +32,7 @@ private val LightColorScheme = lightColorScheme(
     onPrimary = dccColorText,
     onSecondary = dccColorText,
     onTertiary = dccColorText,
+    surfaceVariant = dccColorTextBackground
 )
 
 @Composable
