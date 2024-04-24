@@ -5,5 +5,6 @@ import androidx.compose.ui.unit.dp
 class Dimens {
     companion object {
         val baseMargin = 16.dp
+        val verticalSectionMargin = 24.dp
     }
 }

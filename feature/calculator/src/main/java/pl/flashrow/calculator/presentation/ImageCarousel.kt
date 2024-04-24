@@ -15,9 +15,13 @@ import androidx.compose.foundation.pager.PagerSnapDistance
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,28 +32,38 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
+import kotlinx.coroutines.launch
 import pl.flashrow.core.common.extension.getPercentageString
 import pl.flashrow.dcc.core.model.DrinkType
 import pl.flashrow.dcc.core.resources.R
 import kotlin.math.absoluteValue
 
 @Composable
-fun ImageCarousel(drinkTypes: List<DrinkType>) {
-    ImageCarouselContent(drinkTypes)
+fun ImageCarousel(drinkTypes: List<DrinkType>, onPageChange: (Int) -> Unit){
+    ImageCarouselContent(drinkTypes, onPageChange)
 }
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 private fun ImageCarouselContent(
     drinksList: List<DrinkType>,
+    onPageChange: (Int) -> Unit,
 ) {
     val pagerState = rememberPagerState(pageCount = {
         drinksList.size
     })
+    val scope = rememberCoroutineScope()
     val fling = PagerDefaults.flingBehavior(
         state = pagerState,
         pagerSnapDistance = PagerSnapDistance.atMost(1)
     )
+    LaunchedEffect(pagerState) {
+        snapshotFlow { pagerState.currentPage }
+            .collect { currentPage ->
+                onPageChange(currentPage)
+            }
+    }
+
     HorizontalPager(
         state = pagerState,
         beyondBoundsPageCount = 5,
@@ -74,7 +88,9 @@ private fun ImageCarouselContent(
                         fraction = 1f - pageOffset.coerceIn(0f, 1f)
                     )
                 },
-
+            onClick = {
+                scope.launch { pagerState.animateScrollToPage(page) }
+                },
             ) {
             CarouselItem(drinksList[page])
         }
@@ -114,6 +130,7 @@ private fun CarouselItem(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Preview
 @Composable
 private fun ImageCarouselPreview() {
@@ -144,7 +161,8 @@ private fun ImageCarouselPreview() {
                 name = "Soft drink",
                 alcoholPercentage = 0f
             ),
-        )
+        ),
+        onPageChange = {}
     )
 }
 
