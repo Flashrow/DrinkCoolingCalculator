@@ -33,6 +33,7 @@
             <option value="$PROJECT_DIR$/data" />
             <option value="$PROJECT_DIR$/feature" />
             <option value="$PROJECT_DIR$/feature/calculator" />
+            <option value="$PROJECT_DIR$/feature/select-container" />
             <option value="$PROJECT_DIR$/test" />
           </set>
         </option>

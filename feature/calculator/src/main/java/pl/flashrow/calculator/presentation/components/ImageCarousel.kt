@@ -1,4 +1,4 @@
-package pl.flashrow.calculator.presentation
+package pl.flashrow.calculator.presentation.components
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
