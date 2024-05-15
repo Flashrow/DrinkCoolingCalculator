@@ -1,5 +1,6 @@
 package pl.flashrow.data.repository
 
+import pl.flashrow.data.model.ContainerTypeDto
 import pl.flashrow.data.model.DrinkTypeDto
 import pl.flashrow.dcc.core.resources.R
 import javax.inject.Inject
@@ -33,5 +34,25 @@ class CalculatorRepositoryImpl @Inject constructor() : CalculatorRepository {
                 alcoholPercentage = 0f
             ),
         );
+    }
+
+    override fun getContainerTypes(): List<ContainerTypeDto> {
+        return listOf(
+            ContainerTypeDto(
+                name = "Glass bottle",
+                capacityMl = 500,
+                material = "Glass",
+            ),
+            ContainerTypeDto(
+                name = "Can",
+                capacityMl = 330,
+                material = "Metal",
+            ),
+            ContainerTypeDto(
+                name = "Can",
+                capacityMl = 500,
+                material = "Metal",
+            )
+        )
     }
 }

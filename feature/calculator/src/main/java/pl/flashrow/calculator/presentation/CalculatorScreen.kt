@@ -31,6 +31,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import kotlinx.coroutines.launch
 import pl.flashrow.calculator.presentation.components.ImageCarousel
 import pl.flashrow.calculator.presentation.components.SelectContainerSheet
+import pl.flashrow.dcc.core.model.ContainerType
 import pl.flashrow.dcc.core.model.DrinkType
 import pl.flashrow.dcc.feature.calculator.R
 import pl.flashrow.designsystem.Dimens
@@ -48,17 +49,21 @@ fun CalculatorScreen(
     }
     val state = viewModel.uiState.collectAsState().value
     if (state.isLoading == false)
-        CalculatorContent(state.drinkTypes) { viewModel.onEvent(it) }
+        CalculatorContent(state.drinkTypes, state.containerTypes) { viewModel.onEvent(it) }
     else
         BaseLoading()
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun CalculatorContent(drinkTypes: List<DrinkType>, onEvent: (CalculatorUiEvent) -> Unit) {
+private fun CalculatorContent(
+    drinkTypes: List<DrinkType>,
+    containerTypes: List<ContainerType>,
+    onEvent: (CalculatorUiEvent) -> Unit
+) {
     val sheetState = rememberModalBottomSheetState()
     val scope = rememberCoroutineScope()
-    var showBottomSheet by remember{ mutableStateOf(false) }
+    var showBottomSheet by remember { mutableStateOf(false) }
 
     DccThemedBackground {
         Column(modifier = Modifier.padding(horizontal = Dimens.baseMargin)) {
@@ -74,7 +79,7 @@ private fun CalculatorContent(drinkTypes: List<DrinkType>, onEvent: (CalculatorU
             TitleRow(Icons.Outlined.Liquor, "Wybierz typ pojemnika")
             BaseOutlinedButton(
                 text = "Wybierz",
-                onClick = { showBottomSheet = true}
+                onClick = { showBottomSheet = true }
             )
         }
         if (showBottomSheet) {
@@ -84,14 +89,19 @@ private fun CalculatorContent(drinkTypes: List<DrinkType>, onEvent: (CalculatorU
                 },
                 sheetState = sheetState
             ) {
-                // Sheet content
-                SelectContainerSheet(onClick = {
-                    scope.launch { sheetState.hide() }.invokeOnCompletion {
-                        if (!sheetState.isVisible) {
-                            showBottomSheet = false
+                SelectContainerSheet(
+                    onSelect = { selectedContainerType ->
+                        onEvent(CalculatorUiEvent.UpdateSelectedContainerType(selectedContainerType))
+                    },
+                    closeModalSheet = {
+                        scope.launch { sheetState.hide() }.invokeOnCompletion {
+                            if (!sheetState.isVisible) {
+                                showBottomSheet = false
+                            }
                         }
-                    }
-                })
+                    },
+                    containerTypes = containerTypes,
+                )
             }
         }
     }
@@ -144,6 +154,7 @@ private fun CalculatorPreview() {
                 name = "Soft drink",
                 alcoholPercentage = 0f
             ),
-        )
+        ),
+        emptyList()
     ) {}
 }
