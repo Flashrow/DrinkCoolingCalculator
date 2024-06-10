@@ -8,7 +8,7 @@ import org.gradle.kotlin.dsl.getByType
 
 fun Project.configureCompose(
     commonExtension: CommonExtension<*, *, *, *>
-){
+) {
     val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
     commonExtension.apply {
@@ -29,6 +29,7 @@ fun Project.configureCompose(
         implementation(libs.findLibrary("androidx-compose-ui-util").get())
         implementation(libs.findLibrary("material3").get())
         implementation(libs.findLibrary("androidx-compose-material3-windowSizeClass").get())
+        implementation(libs.findLibrary("androidx-compose-material3").get())
 
         debugImplementation(libs.findLibrary("androidx-compose-ui-tooling").get())
         debugImplementation(libs.findLibrary("androidx-compose-ui-test-manifest").get())

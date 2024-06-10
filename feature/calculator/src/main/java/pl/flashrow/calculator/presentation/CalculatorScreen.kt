@@ -7,30 +7,28 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.DeviceThermostat
 import androidx.compose.material.icons.outlined.Liquor
 import androidx.compose.material.icons.outlined.SportsBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import kotlinx.coroutines.launch
 import pl.flashrow.calculator.presentation.components.ImageCarousel
 import pl.flashrow.calculator.presentation.components.SelectContainerSheet
+import pl.flashrow.calculator.presentation.components.TemperatureSlider
 import pl.flashrow.dcc.core.model.ContainerType
 import pl.flashrow.dcc.core.model.DrinkType
 import pl.flashrow.dcc.feature.calculator.R
@@ -61,9 +59,7 @@ private fun CalculatorContent(
     containerTypes: List<ContainerType>,
     onEvent: (CalculatorUiEvent) -> Unit
 ) {
-    val sheetState = rememberModalBottomSheetState()
-    val scope = rememberCoroutineScope()
-    var showBottomSheet by remember { mutableStateOf(false) }
+    var showSelectContainerSheet by remember { mutableStateOf(false) }
 
     DccThemedBackground {
         Column(modifier = Modifier.padding(horizontal = Dimens.baseMargin)) {
@@ -79,30 +75,19 @@ private fun CalculatorContent(
             TitleRow(Icons.Outlined.Liquor, "Wybierz typ pojemnika")
             BaseOutlinedButton(
                 text = "Wybierz",
-                onClick = { showBottomSheet = true }
+                onClick = { showSelectContainerSheet = true }
             )
+            TitleRow(Icons.Outlined.DeviceThermostat, "Temperatura początkowa napoju")
+            TemperatureSlider()
         }
-        if (showBottomSheet) {
-            ModalBottomSheet(
-                onDismissRequest = {
-                    showBottomSheet = false
+        if (showSelectContainerSheet) {
+            SelectContainerSheet(
+                onSelect = { selectedContainerType ->
+                    onEvent(CalculatorUiEvent.UpdateSelectedContainerType(selectedContainerType))
                 },
-                sheetState = sheetState
-            ) {
-                SelectContainerSheet(
-                    onSelect = { selectedContainerType ->
-                        onEvent(CalculatorUiEvent.UpdateSelectedContainerType(selectedContainerType))
-                    },
-                    closeModalSheet = {
-                        scope.launch { sheetState.hide() }.invokeOnCompletion {
-                            if (!sheetState.isVisible) {
-                                showBottomSheet = false
-                            }
-                        }
-                    },
-                    containerTypes = containerTypes,
-                )
-            }
+                containerTypes = containerTypes,
+                onDismiss = { showSelectContainerSheet = false }
+            )
         }
     }
 }
