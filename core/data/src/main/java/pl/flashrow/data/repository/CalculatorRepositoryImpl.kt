@@ -39,20 +39,25 @@ class CalculatorRepositoryImpl @Inject constructor() : CalculatorRepository {
     override fun getContainerTypes(): List<ContainerTypeDto> {
         return listOf(
             ContainerTypeDto(
-                name = "Glass bottle",
+                name = "Szklana butelka 500ml",
                 capacityMl = 500,
                 material = "Glass",
             ),
             ContainerTypeDto(
-                name = "Can",
+                name = "Plastikowa butelka 500ml",
+                capacityMl = 500,
+                material = "Plastic",
+            ),
+            ContainerTypeDto(
+                name = "Puszka 330ml",
                 capacityMl = 330,
                 material = "Metal",
             ),
             ContainerTypeDto(
-                name = "Can",
+                name = "Puszka 500ml",
                 capacityMl = 500,
                 material = "Metal",
-            )
+            ),
         )
     }
 }

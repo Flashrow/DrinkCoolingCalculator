@@ -13,7 +13,8 @@ import pl.flashrow.designsystem.Dimens
 
 @Composable
 fun BaseOutlinedButton(
-    text: String,
+    text: String = "",
+    child: (@Composable () -> Unit)? = null,
     onClick: () -> Unit,
     enabled: Boolean = true
 ) {
@@ -23,7 +24,11 @@ fun BaseOutlinedButton(
         enabled = enabled,
         border = BorderStroke(Dimens.borderWidth, MaterialTheme.colorScheme.primary),
     ) {
-        Text(text = text, color = MaterialTheme.colorScheme.primary)
+        if(child != null) {
+            child()
+        } else {
+            Text(text = text, color = MaterialTheme.colorScheme.primary)
+        }
     }
 }
 

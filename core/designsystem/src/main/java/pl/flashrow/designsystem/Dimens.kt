@@ -9,5 +9,6 @@ class Dimens {
         val verticalSectionMargin = 24.dp
         val smallMargin = 8.dp
         val borderWidth = 1.dp
+        val iconSize = 20.dp
     }
 }

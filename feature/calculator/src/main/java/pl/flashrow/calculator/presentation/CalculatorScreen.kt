@@ -5,9 +5,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.DeviceThermostat
+import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.Liquor
 import androidx.compose.material.icons.outlined.SportsBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -21,6 +23,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
@@ -47,7 +50,13 @@ fun CalculatorScreen(
     }
     val state = viewModel.uiState.collectAsState().value
     if (state.isLoading == false)
-        CalculatorContent(state.drinkTypes, state.containerTypes) { viewModel.onEvent(it) }
+        CalculatorContent(
+            drinkTypes = state.drinkTypes,
+            containerTypes = state.containerTypes,
+            selectedContainerType = state.selectedContainerType
+        ) {
+            viewModel.onEvent(it)
+        }
     else
         BaseLoading()
 }
@@ -57,7 +66,8 @@ fun CalculatorScreen(
 private fun CalculatorContent(
     drinkTypes: List<DrinkType>,
     containerTypes: List<ContainerType>,
-    onEvent: (CalculatorUiEvent) -> Unit
+    selectedContainerType: ContainerType? = null,
+    onEvent: (CalculatorUiEvent) -> Unit,
 ) {
     var showSelectContainerSheet by remember { mutableStateOf(false) }
 
@@ -74,7 +84,13 @@ private fun CalculatorContent(
             })
             TitleRow(Icons.Outlined.Liquor, "Wybierz typ pojemnika")
             BaseOutlinedButton(
-                text = "Wybierz",
+                "Wybierz",
+                child = if(selectedContainerType != null) {
+                    { Row (verticalAlignment = Alignment.CenterVertically){
+                        Text(selectedContainerType.name, modifier = Modifier.padding(end = Dimens.smallMargin))
+                        Icon(Icons.Outlined.Edit, contentDescription = "", modifier = Modifier.size(Dimens.iconSize))
+                    } }
+                } else null,
                 onClick = { showSelectContainerSheet = true }
             )
             TitleRow(Icons.Outlined.DeviceThermostat, "Temperatura początkowa napoju")

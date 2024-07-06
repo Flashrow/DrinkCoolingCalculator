@@ -68,6 +68,11 @@ class CalculatorViewModel @Inject constructor(
 
     private fun selectContainerType(containerType: ContainerType) {
         selectedContainerType = containerType
+        _uiState.update { currentState ->
+            currentState.copy(
+                selectedContainerType = selectedContainerType,
+            )
+        }
         Log.d("CalculatorViewModel", "Selected container type: $containerType")
     }
 }

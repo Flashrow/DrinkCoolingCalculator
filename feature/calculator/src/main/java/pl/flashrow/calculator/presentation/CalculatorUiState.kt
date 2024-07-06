@@ -8,6 +8,8 @@ sealed interface CalculatorUiState {
         val drinkTypes: List<DrinkType> = emptyList(),
         val containerTypes: List<ContainerType> = emptyList(),
         val isLoading: Boolean? = null,
+        val selectedDrinkType: DrinkType? = null,
+        val selectedContainerType: ContainerType? = null,
     )
 }
 

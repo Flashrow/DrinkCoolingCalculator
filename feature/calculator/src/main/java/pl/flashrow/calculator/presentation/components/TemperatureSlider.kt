@@ -3,6 +3,7 @@ package pl.flashrow.calculator.presentation.components
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -34,7 +35,7 @@ fun TemperatureSlider(
     val interactionSource = remember { MutableInteractionSource() }
     val colors = SliderDefaults.colors(thumbColor = Color.Red, activeTrackColor = Color.Red)
     Slider(
-        modifier = Modifier.semantics { contentDescription = "Localized Description" },
+        modifier = Modifier.semantics { contentDescription = "Localized Description" }.padding(horizontal = 16.dp),
         value = sliderPosition,
         onValueChange = { sliderPosition = it },
         valueRange = 0f..100f,
