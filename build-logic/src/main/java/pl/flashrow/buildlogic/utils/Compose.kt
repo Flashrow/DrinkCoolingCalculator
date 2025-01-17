@@ -7,7 +7,7 @@ import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getByType
 
 fun Project.configureCompose(
-    commonExtension: CommonExtension<*, *, *, *>
+    commonExtension: CommonExtension<*, *, *, *, *, *>
 ) {
     val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
@@ -15,6 +15,9 @@ fun Project.configureCompose(
         buildFeatures.compose = true
         composeOptions.kotlinCompilerExtensionVersion =
             libs.findVersion("androidxComposeCompiler").get().toString()
+        with(pluginManager){
+            apply("org.jetbrains.kotlin.plugin.compose")
+        }
     }
 
     dependencies {

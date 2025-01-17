@@ -11,6 +11,7 @@ import kotlinx.coroutines.launch
 import pl.flashrow.dcc.core.model.ContainerType
 import pl.flashrow.dcc.core.model.DrinkType
 import pl.flashrow.domain.calculator.GetContainerTypesUseCase
+import pl.flashrow.domain.calculator.GetCoolingPlaceTypesUseCase
 import pl.flashrow.domain.calculator.GetDrinkTypesUseCase
 import javax.inject.Inject
 
@@ -18,6 +19,7 @@ import javax.inject.Inject
 class CalculatorViewModel @Inject constructor(
     private val getDrinkTypesUseCase: GetDrinkTypesUseCase,
     private val getContainerTypesUseCase: GetContainerTypesUseCase,
+    private val getCoolingPlaceTypesUseCase: GetCoolingPlaceTypesUseCase,
 ) : ViewModel() {
     private var _uiState = MutableStateFlow(CalculatorUiState.UiState())
     val uiState: StateFlow<CalculatorUiState.UiState> = _uiState
@@ -42,10 +44,12 @@ class CalculatorViewModel @Inject constructor(
             setLoading(true)
             val drinkTypes = getDrinkTypesUseCase()
             val containerTypes = getContainerTypesUseCase()
+            val coolingPlaceTypes = getCoolingPlaceTypesUseCase()
             _uiState.update { currentState ->
                 currentState.copy(
                     drinkTypes = drinkTypes,
                     containerTypes = containerTypes,
+                    coolingPlaces = coolingPlaceTypes,
                 )
             }
             selectDrinkType(drinkTypes.first())

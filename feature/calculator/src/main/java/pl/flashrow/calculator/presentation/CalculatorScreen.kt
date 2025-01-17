@@ -7,9 +7,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.DeviceThermostat
 import androidx.compose.material.icons.outlined.Edit
+import androidx.compose.material.icons.outlined.Kitchen
 import androidx.compose.material.icons.outlined.Liquor
 import androidx.compose.material.icons.outlined.SportsBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -29,10 +32,13 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import pl.flashrow.calculator.presentation.components.CoolingPlaceRadioGroup
 import pl.flashrow.calculator.presentation.components.ImageCarousel
 import pl.flashrow.calculator.presentation.components.SelectContainerSheet
 import pl.flashrow.calculator.presentation.components.TemperatureSlider
+import pl.flashrow.dcc.core.enum.CoolingPlaceType
 import pl.flashrow.dcc.core.model.ContainerType
+import pl.flashrow.dcc.core.model.CoolingPlace
 import pl.flashrow.dcc.core.model.DrinkType
 import pl.flashrow.dcc.feature.calculator.R
 import pl.flashrow.designsystem.Dimens
@@ -53,7 +59,8 @@ fun CalculatorScreen(
         CalculatorContent(
             drinkTypes = state.drinkTypes,
             containerTypes = state.containerTypes,
-            selectedContainerType = state.selectedContainerType
+            selectedContainerType = state.selectedContainerType,
+            coolingPlaces = state.coolingPlaces
         ) {
             viewModel.onEvent(it)
         }
@@ -66,13 +73,19 @@ fun CalculatorScreen(
 private fun CalculatorContent(
     drinkTypes: List<DrinkType>,
     containerTypes: List<ContainerType>,
+    coolingPlaces: List<CoolingPlace>,
     selectedContainerType: ContainerType? = null,
     onEvent: (CalculatorUiEvent) -> Unit,
 ) {
     var showSelectContainerSheet by remember { mutableStateOf(false) }
+    val scrollState = rememberScrollState()
 
     DccThemedBackground {
-        Column(modifier = Modifier.padding(horizontal = Dimens.baseMargin)) {
+        Column(
+            modifier = Modifier
+                .padding(horizontal = Dimens.baseMargin)
+                .verticalScroll(scrollState)
+        ) {
             Text(
                 stringResource(id = R.string.calculate_drink_cooling_time_title),
                 style = MaterialTheme.typography.headlineSmall
@@ -85,16 +98,28 @@ private fun CalculatorContent(
             TitleRow(Icons.Outlined.Liquor, "Wybierz typ pojemnika")
             BaseOutlinedButton(
                 "Wybierz",
-                child = if(selectedContainerType != null) {
-                    { Row (verticalAlignment = Alignment.CenterVertically){
-                        Text(selectedContainerType.name, modifier = Modifier.padding(end = Dimens.smallMargin))
-                        Icon(Icons.Outlined.Edit, contentDescription = "", modifier = Modifier.size(Dimens.iconSize))
-                    } }
+                child = if (selectedContainerType != null) {
+                    {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text(
+                                selectedContainerType.name,
+                                modifier = Modifier.padding(end = Dimens.smallMargin)
+                            )
+                            Icon(
+                                Icons.Outlined.Edit,
+                                contentDescription = "",
+                                modifier = Modifier.size(Dimens.iconSize)
+                            )
+                        }
+                    }
                 } else null,
                 onClick = { showSelectContainerSheet = true }
             )
             TitleRow(Icons.Outlined.DeviceThermostat, "Temperatura początkowa napoju")
             TemperatureSlider()
+            TitleRow(Icons.Outlined.Kitchen, "Gdzie schłodzisz napój?")
+            CoolingPlaceRadioGroup(coolingPlaces)
+            Spacer(modifier = Modifier.height(Dimens.verticalSectionMargin))
         }
         if (showSelectContainerSheet) {
             SelectContainerSheet(
@@ -156,6 +181,11 @@ private fun CalculatorPreview() {
                 alcoholPercentage = 0f
             ),
         ),
-        emptyList()
+        emptyList(),
+        listOf(
+            CoolingPlace(CoolingPlaceType.FRIDGE, "Fridge", 4),
+            CoolingPlace(CoolingPlaceType.FREEZER, "Freezer", -18),
+            CoolingPlace(CoolingPlaceType.CUSTOM, "Inna wartość", null),
+        )
     ) {}
 }

@@ -3,9 +3,9 @@ package pl.flashrow.buildlogic.utils
 import com.android.build.api.dsl.CommonExtension
 import org.gradle.api.JavaVersion
 
-internal fun configureAndroid(commonExtension: CommonExtension<*, *, *, *>) {
+internal fun configureAndroid(commonExtension: CommonExtension<*, *, *, *, *, *>) {
     commonExtension.apply {
-        compileSdk = 34
+        compileSdk = 35
 
         defaultConfig {
             minSdk = 29

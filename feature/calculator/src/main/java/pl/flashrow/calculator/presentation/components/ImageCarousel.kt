@@ -66,7 +66,6 @@ private fun ImageCarouselContent(
 
     HorizontalPager(
         state = pagerState,
-        beyondBoundsPageCount = 5,
         flingBehavior = fling,
         contentPadding = PaddingValues(
             end = 100.dp,

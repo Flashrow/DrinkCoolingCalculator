@@ -1,12 +1,14 @@
 package pl.flashrow.calculator.presentation
 
 import pl.flashrow.dcc.core.model.ContainerType
+import pl.flashrow.dcc.core.model.CoolingPlace
 import pl.flashrow.dcc.core.model.DrinkType
 
 sealed interface CalculatorUiState {
     data class UiState (
         val drinkTypes: List<DrinkType> = emptyList(),
         val containerTypes: List<ContainerType> = emptyList(),
+        val coolingPlaces: List<CoolingPlace> = emptyList(),
         val isLoading: Boolean? = null,
         val selectedDrinkType: DrinkType? = null,
         val selectedContainerType: ContainerType? = null,

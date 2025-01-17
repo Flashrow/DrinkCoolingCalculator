@@ -1,6 +1,7 @@
 package pl.flashrow.data.repository
 
 import pl.flashrow.data.model.ContainerTypeDto
+import pl.flashrow.data.model.CoolingPlaceDto
 import pl.flashrow.data.model.DrinkTypeDto
 import pl.flashrow.dcc.core.resources.R
 import javax.inject.Inject
@@ -57,6 +58,21 @@ class CalculatorRepositoryImpl @Inject constructor() : CalculatorRepository {
                 name = "Puszka 500ml",
                 capacityMl = 500,
                 material = "Metal",
+            ),
+        )
+    }
+
+    override fun getCoolingPlaces(): List<CoolingPlaceDto> {
+        return listOf(
+            CoolingPlaceDto(
+                coolingPlaceType = "FRIDGE",
+                name = "Lodówka",
+                temperature = 4
+            ),
+            CoolingPlaceDto(
+                coolingPlaceType = "FREEZER",
+                name = "Zamrażarka",
+                temperature = -18
             ),
         )
     }

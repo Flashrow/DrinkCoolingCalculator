@@ -14,6 +14,9 @@ class ComposeConventionPlugin : Plugin<Project>{
             extensions.configure<BaseAppModuleExtension> {
                 configureCompose(commonExtension = this)
             }
+            with(pluginManager){
+                apply("org.jetbrains.kotlin.plugin.compose")
+            }
             val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
             dependencies {
                 implementation(libs.findLibrary("androidx-compose-activity").get())
