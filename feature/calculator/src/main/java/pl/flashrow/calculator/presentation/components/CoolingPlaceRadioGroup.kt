@@ -7,13 +7,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -24,11 +23,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import pl.flashrow.dcc.core.enum.CoolingPlaceType
 import pl.flashrow.dcc.core.model.CoolingPlace
 import pl.flashrow.designsystem.Dimens
+import pl.flashrow.ui.widgets.BaseTextField
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -72,11 +72,10 @@ fun CoolingPlaceRadioGroup(coolingPlaces: List<CoolingPlace>) {
                     style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier.padding(start = Dimens.baseMargin)
                 )
-                TextField(
+                BaseTextField(
                     value = customValueText,
                     onValueChange = { customValueText = it },
-                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
-                    textStyle = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier.width(70.dp)
                 )
                 Text(
                     text = "°C",
@@ -117,4 +116,15 @@ private fun ContainerTypeRow(
             )
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun CoolingPlaceRadioGroupPreview() {
+    val sampleCoolingPlaces = listOf(
+        CoolingPlace(name = "Fridge", temperature = 4, coolingPlaceType = CoolingPlaceType.FRIDGE),
+        CoolingPlace(name = "Freezer", temperature = -18, coolingPlaceType = CoolingPlaceType.FREEZER),
+        CoolingPlace(name = "Room Temperature", temperature = 22, coolingPlaceType = CoolingPlaceType.CUSTOM),
+    )
+    CoolingPlaceRadioGroup(coolingPlaces = sampleCoolingPlaces)
 }

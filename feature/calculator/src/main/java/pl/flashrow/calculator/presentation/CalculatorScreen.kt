@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.AcUnit
 import androidx.compose.material.icons.outlined.DeviceThermostat
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.Kitchen
@@ -31,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import pl.flashrow.calculator.presentation.components.CoolingPlaceRadioGroup
 import pl.flashrow.calculator.presentation.components.ImageCarousel
@@ -43,6 +45,7 @@ import pl.flashrow.dcc.core.model.DrinkType
 import pl.flashrow.dcc.feature.calculator.R
 import pl.flashrow.designsystem.Dimens
 import pl.flashrow.ui.DccThemedBackground
+import pl.flashrow.ui.widgets.BaseFilledButton
 import pl.flashrow.ui.widgets.BaseLoading
 import pl.flashrow.ui.widgets.BaseOutlinedButton
 
@@ -120,6 +123,11 @@ private fun CalculatorContent(
             TitleRow(Icons.Outlined.Kitchen, "Gdzie schłodzisz napój?")
             CoolingPlaceRadioGroup(coolingPlaces)
             Spacer(modifier = Modifier.height(Dimens.verticalSectionMargin))
+            TitleRow(Icons.Outlined.AcUnit, "Temperatura docelowa napoju")
+            TemperatureSlider()
+            Spacer(modifier = Modifier.height(Dimens.verticalSectionMargin))
+            BaseFilledButton("Oblicz", onClick = { })
+            Spacer(modifier = Modifier.height(100.dp))
         }
         if (showSelectContainerSheet) {
             SelectContainerSheet(
