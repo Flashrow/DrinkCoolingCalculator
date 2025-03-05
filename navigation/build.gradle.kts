@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "pl.flashrow.dcc.test"
+    namespace = "pl.flashrow.dcc.navigation"
 }
 
 dependencies {

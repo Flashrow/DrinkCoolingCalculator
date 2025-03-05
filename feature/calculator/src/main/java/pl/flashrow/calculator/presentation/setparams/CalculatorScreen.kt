@@ -1,4 +1,4 @@
-package pl.flashrow.calculator.presentation
+package pl.flashrow.calculator.presentation.setparams
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,7 +16,6 @@ import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.Kitchen
 import androidx.compose.material.icons.outlined.Liquor
 import androidx.compose.material.icons.outlined.SportsBar
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -34,10 +33,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import pl.flashrow.calculator.presentation.components.CoolingPlaceRadioGroup
-import pl.flashrow.calculator.presentation.components.ImageCarousel
-import pl.flashrow.calculator.presentation.components.SelectContainerSheet
-import pl.flashrow.calculator.presentation.components.TemperatureSlider
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.annotation.RootGraph
+import pl.flashrow.calculator.presentation.setparams.components.CoolingPlaceRadioGroup
+import pl.flashrow.calculator.presentation.setparams.components.ImageCarousel
+import pl.flashrow.calculator.presentation.setparams.components.SelectContainerSheet
+import pl.flashrow.calculator.presentation.setparams.components.TemperatureSlider
 import pl.flashrow.dcc.core.enum.CoolingPlaceType
 import pl.flashrow.dcc.core.model.ContainerType
 import pl.flashrow.dcc.core.model.CoolingPlace
@@ -49,13 +50,18 @@ import pl.flashrow.ui.widgets.BaseFilledButton
 import pl.flashrow.ui.widgets.BaseLoading
 import pl.flashrow.ui.widgets.BaseOutlinedButton
 
+@Destination<RootGraph>
 @Composable
-fun CalculatorScreen(
-
-) {
+fun CalculatorScreen() {
     val viewModel: CalculatorViewModel = hiltViewModel()
     LaunchedEffect(Unit) {
-        viewModel.onEvent(CalculatorUiEvent.Init)
+        viewModel.onEvent(CalculatorContract.Event.Init)
+
+        viewModel.eventsFlow.collect {
+            when (it) {
+                is CalculatorContract.Effect.NavigateToResult -> {}
+            }
+        }
     }
     val state = viewModel.uiState.collectAsState().value
     if (state.isLoading == false)
@@ -63,7 +69,7 @@ fun CalculatorScreen(
             drinkTypes = state.drinkTypes,
             containerTypes = state.containerTypes,
             selectedContainerType = state.selectedContainerType,
-            coolingPlaces = state.coolingPlaces
+            coolingPlaces = state.coolingPlaces,
         ) {
             viewModel.onEvent(it)
         }
@@ -71,14 +77,13 @@ fun CalculatorScreen(
         BaseLoading()
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun CalculatorContent(
     drinkTypes: List<DrinkType>,
     containerTypes: List<ContainerType>,
     coolingPlaces: List<CoolingPlace>,
     selectedContainerType: ContainerType? = null,
-    onEvent: (CalculatorUiEvent) -> Unit,
+    onEvent: (CalculatorContract.Event) -> Unit,
 ) {
     var showSelectContainerSheet by remember { mutableStateOf(false) }
     val scrollState = rememberScrollState()
@@ -96,7 +101,7 @@ private fun CalculatorContent(
             Spacer(modifier = Modifier.height(Dimens.verticalSectionMargin))
             TitleRow(Icons.Outlined.SportsBar, "Wybierz rodzaj napoju")
             ImageCarousel(drinkTypes, onPageChange = {
-                onEvent(CalculatorUiEvent.UpdateSelectedDrinkType(drinkTypes[it]))
+                onEvent(CalculatorContract.Event.UpdateSelectedDrinkType(drinkTypes[it]))
             })
             TitleRow(Icons.Outlined.Liquor, "Wybierz typ pojemnika")
             BaseOutlinedButton(
@@ -126,13 +131,15 @@ private fun CalculatorContent(
             TitleRow(Icons.Outlined.AcUnit, "Temperatura docelowa napoju")
             TemperatureSlider()
             Spacer(modifier = Modifier.height(Dimens.verticalSectionMargin))
-            BaseFilledButton("Oblicz", onClick = { })
+            BaseFilledButton("Oblicz", onClick = {
+
+            })
             Spacer(modifier = Modifier.height(100.dp))
         }
         if (showSelectContainerSheet) {
             SelectContainerSheet(
                 onSelect = { selectedContainerType ->
-                    onEvent(CalculatorUiEvent.UpdateSelectedContainerType(selectedContainerType))
+                    onEvent(CalculatorContract.Event.UpdateSelectedContainerType(selectedContainerType))
                 },
                 containerTypes = containerTypes,
                 onDismiss = { showSelectContainerSheet = false }

@@ -14,13 +14,14 @@ import pl.flashrow.designsystem.Dimens
 @Composable
 fun BaseFilledButton(
     text: String = "",
+    modifier: Modifier = Modifier,
     child: (@Composable () -> Unit)? = null,
     onClick: () -> Unit,
-    enabled: Boolean = true
+    enabled: Boolean = true,
 ) {
     Button(
         onClick = onClick,
-        modifier = Modifier
+        modifier = modifier
             .height(Dimens.buttonHeight)
             .fillMaxWidth(),
         enabled = enabled,

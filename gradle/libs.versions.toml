@@ -12,7 +12,7 @@ androidGradlePlugin = "8.8.0"
 compose-bom = "2024.12.01"
 appcompat = "1.7.0"
 material = "1.12.0"
-hilt = "2.48"
+hilt = "2.51.1"
 kspGradlePlugin = "2.0.0-1.0.23"
 org-jetbrains-kotlin-jvm = "2.0.0"
 androidxComposeCompiler = "1.6.7"
@@ -21,6 +21,9 @@ androidxActivityCompose = "1.9.3"
 androidxNavigation = "2.8.5"
 hiltNavigation = "1.2.0"
 splashscreen = "1.0.1"
+androidxComposeDestinations = "2.0.0-beta12"
+androidxComposeDestinationsAnimations = "1.11.9"
+kotlinx-metadata-jvm = "0.9.0"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
@@ -34,6 +37,10 @@ compose-bom = { module = "androidx.compose:compose-bom", name="compose-bom", ver
 compose-ui = { module = "androidx.compose.ui:ui"}
 compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics"}
 compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview"}
+androidx-compose-destinations-animations = { group = "io.github.raamcosta.compose-destinations", name = "animations-core", version.ref = "androidxComposeDestinationsAnimations" }
+androidx-compose-destinations-ksp = { group = "io.github.raamcosta.compose-destinations", name = "ksp", version.ref = "androidxComposeDestinations" }
+androidx-compose-destinations-codegen = { group = "io.github.raamcosta.compose-destinations", name = "codegen", version.ref = "androidxComposeDestinations" }
+androidx-compose-destinations-core = { group = "io.github.raamcosta.compose-destinations", name = "core", version.ref = "androidxComposeDestinations" }
 androidx-compose-foundation-layout = { group = "androidx.compose.foundation", name = "foundation-layout" }
 androidx-compose-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended" }
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "androidxComposeMaterial3" }
@@ -58,6 +65,7 @@ hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref
 hilt-android-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
 androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation" }
 androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "splashscreen" }
+kotlinx-metadata-jvm = { module = "org.jetbrains.kotlinx:kotlinx-metadata-jvm", version.ref = "kotlinx-metadata-jvm" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }

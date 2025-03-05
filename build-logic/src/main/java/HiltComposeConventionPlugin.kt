@@ -22,6 +22,10 @@ class HiltComposeConventionPlugin : Plugin<Project> {
             dependencies {
                 implementation(libs.findLibrary("androidx-navigation").get())
                 implementation(libs.findLibrary("hilt-navigation").get())
+                implementation(libs.findLibrary("androidx-compose-destinations-animations").get())
+                implementation(libs.findLibrary("androidx-compose-destinations-ksp").get())
+                implementation(libs.findLibrary("androidx-compose-destinations-codegen").get())
+                implementation(libs.findLibrary("androidx-compose-destinations-core").get())
             }
         }
     }

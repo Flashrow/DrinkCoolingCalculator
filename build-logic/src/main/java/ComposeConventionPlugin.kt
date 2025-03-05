@@ -16,6 +16,7 @@ class ComposeConventionPlugin : Plugin<Project>{
             }
             with(pluginManager){
                 apply("org.jetbrains.kotlin.plugin.compose")
+                apply("com.google.devtools.ksp")
             }
             val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
             dependencies {

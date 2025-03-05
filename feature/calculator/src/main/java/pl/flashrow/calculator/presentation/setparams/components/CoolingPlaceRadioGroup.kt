@@ -1,4 +1,4 @@
-package pl.flashrow.calculator.presentation.components
+package pl.flashrow.calculator.presentation.setparams.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box

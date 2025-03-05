@@ -21,6 +21,8 @@ fun DccApp(
     DccBackground {
         val snackbarHostState = remember { SnackbarHostState() }
         DccNavHost(appState = appState)
+
+//            DestinationsNavHost(navGraph = NavGraphs.root)
     }
 }
 

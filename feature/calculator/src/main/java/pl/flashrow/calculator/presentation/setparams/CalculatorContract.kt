@@ -1,11 +1,11 @@
-package pl.flashrow.calculator.presentation
+package pl.flashrow.calculator.presentation.setparams
 
 import pl.flashrow.dcc.core.model.ContainerType
 import pl.flashrow.dcc.core.model.CoolingPlace
 import pl.flashrow.dcc.core.model.DrinkType
 
-sealed interface CalculatorUiState {
-    data class UiState (
+internal interface CalculatorContract {
+    data class State(
         val drinkTypes: List<DrinkType> = emptyList(),
         val containerTypes: List<ContainerType> = emptyList(),
         val coolingPlaces: List<CoolingPlace> = emptyList(),
@@ -13,10 +13,15 @@ sealed interface CalculatorUiState {
         val selectedDrinkType: DrinkType? = null,
         val selectedContainerType: ContainerType? = null,
     )
+
+    sealed interface Event {
+        data object Init : Event
+        data class UpdateSelectedDrinkType(val drinkType: DrinkType) : Event
+        data class UpdateSelectedContainerType(val containerType: ContainerType) : Event
+    }
+
+    sealed interface Effect {
+        data object NavigateToResult : Effect
+    }
 }
 
-sealed interface CalculatorUiEvent {
-    data object  Init: CalculatorUiEvent
-    data class UpdateSelectedDrinkType(val drinkType: DrinkType):CalculatorUiEvent
-    data class UpdateSelectedContainerType(val containerType: ContainerType):CalculatorUiEvent
-}

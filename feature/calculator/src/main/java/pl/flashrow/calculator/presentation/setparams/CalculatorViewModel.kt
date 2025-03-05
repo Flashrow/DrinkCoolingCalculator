@@ -1,11 +1,13 @@
-package pl.flashrow.calculator.presentation
+package pl.flashrow.calculator.presentation.setparams
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import pl.flashrow.dcc.core.model.ContainerType
@@ -16,27 +18,30 @@ import pl.flashrow.domain.calculator.GetDrinkTypesUseCase
 import javax.inject.Inject
 
 @HiltViewModel
-class CalculatorViewModel @Inject constructor(
+internal class CalculatorViewModel @Inject constructor(
     private val getDrinkTypesUseCase: GetDrinkTypesUseCase,
     private val getContainerTypesUseCase: GetContainerTypesUseCase,
     private val getCoolingPlaceTypesUseCase: GetCoolingPlaceTypesUseCase,
 ) : ViewModel() {
-    private var _uiState = MutableStateFlow(CalculatorUiState.UiState())
-    val uiState: StateFlow<CalculatorUiState.UiState> = _uiState
+    private var _uiState = MutableStateFlow(CalculatorContract.State())
+    val uiState: StateFlow<CalculatorContract.State> = _uiState
+
+    private val eventChannel = Channel<CalculatorContract.Effect>(Channel.BUFFERED)
+    val eventsFlow = eventChannel.receiveAsFlow()
 
     private lateinit var selectedDrinkType: DrinkType
     private lateinit var selectedContainerType: ContainerType
 
-    fun onEvent(event: CalculatorUiEvent) {
+    fun onEvent(event: CalculatorContract.Event) {
         viewModelScope.launch {
             eventDispatcher(event)
         }
     }
 
-    private fun eventDispatcher(event: CalculatorUiEvent): Any = when (event) {
-        CalculatorUiEvent.Init -> init()
-        is CalculatorUiEvent.UpdateSelectedDrinkType -> selectDrinkType(event.drinkType)
-        is CalculatorUiEvent.UpdateSelectedContainerType -> selectContainerType(event.containerType)
+    private fun eventDispatcher(event: CalculatorContract.Event): Any = when (event) {
+        CalculatorContract.Event.Init -> init()
+        is CalculatorContract.Event.UpdateSelectedDrinkType -> selectDrinkType(event.drinkType)
+        is CalculatorContract.Event.UpdateSelectedContainerType -> selectContainerType(event.containerType)
     }
 
     private fun init() {

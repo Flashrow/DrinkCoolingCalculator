@@ -33,6 +33,10 @@ fun Project.configureCompose(
         implementation(libs.findLibrary("material3").get())
         implementation(libs.findLibrary("androidx-compose-material3-windowSizeClass").get())
         implementation(libs.findLibrary("androidx-compose-material3").get())
+        implementation(libs.findLibrary("androidx-compose-destinations-animations").get())
+        kapt(libs.findLibrary("androidx-compose-destinations-ksp").get())
+        implementation(libs.findLibrary("androidx-compose-destinations-codegen").get())
+        implementation(libs.findLibrary("androidx-compose-destinations-core").get())
 
         debugImplementation(libs.findLibrary("androidx-compose-ui-tooling").get())
         debugImplementation(libs.findLibrary("androidx-compose-ui-test-manifest").get())
