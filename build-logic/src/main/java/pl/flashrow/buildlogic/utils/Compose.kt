@@ -17,28 +17,29 @@ fun Project.configureCompose(
             libs.findVersion("androidxComposeCompiler").get().toString()
         with(pluginManager){
             apply("org.jetbrains.kotlin.plugin.compose")
+            apply("com.google.devtools.ksp")
         }
     }
 
     dependencies {
-        implementation(libs.findLibrary("compose-bom").get())
-        implementation(libs.findLibrary("androidx-compose-foundation").get())
-        implementation(libs.findLibrary("androidx-compose-foundation-layout").get())
-        implementation(libs.findLibrary("androidx-compose-material-icons-extended").get())
-        implementation(libs.findLibrary("androidx-compose-material3").get())
-        implementation(libs.findLibrary("androidx-compose-runtime").get())
-        implementation(libs.findLibrary("androidx-compose-runtime-livedata").get())
-        implementation(libs.findLibrary("androidx-compose-ui").get())
-        implementation(libs.findLibrary("androidx-compose-ui-util").get())
-        implementation(libs.findLibrary("material3").get())
-        implementation(libs.findLibrary("androidx-compose-material3-windowSizeClass").get())
-        implementation(libs.findLibrary("androidx-compose-material3").get())
-        implementation(libs.findLibrary("androidx-compose-destinations-animations").get())
-        kapt(libs.findLibrary("androidx-compose-destinations-ksp").get())
-        implementation(libs.findLibrary("androidx-compose-destinations-codegen").get())
-        implementation(libs.findLibrary("androidx-compose-destinations-core").get())
+        add("implementation", libs.findLibrary("compose-bom").get())
+        add("implementation", libs.findLibrary("androidx-compose-foundation").get())
+        add("implementation", libs.findLibrary("androidx-compose-foundation-layout").get())
+        add("implementation", libs.findLibrary("androidx-compose-material-icons-extended").get())
+        add("implementation", libs.findLibrary("androidx-compose-material3").get())
+        add("implementation", libs.findLibrary("androidx-compose-runtime").get())
+        add("implementation", libs.findLibrary("androidx-compose-runtime-livedata").get())
+        add("implementation", libs.findLibrary("androidx-compose-ui").get())
+        add("implementation", libs.findLibrary("androidx-compose-ui-util").get())
+        add("implementation", libs.findLibrary("material3").get())
+        add("implementation", libs.findLibrary("androidx-compose-material3-windowSizeClass").get())
+        add("implementation", libs.findLibrary("androidx-compose-material3").get())
+        add("implementation", libs.findLibrary("androidx-compose-destinations-animations").get())
+        add("ksp", libs.findLibrary("androidx-compose-destinations-ksp").get())
+        add("implementation", libs.findLibrary("androidx-compose-destinations-codegen").get())
+        add("implementation", libs.findLibrary("androidx-compose-destinations-core").get())
 
-        debugImplementation(libs.findLibrary("androidx-compose-ui-tooling").get())
-        debugImplementation(libs.findLibrary("androidx-compose-ui-test-manifest").get())
+        add("debugImplementation", libs.findLibrary("androidx-compose-ui-tooling").get())
+        add("debugImplementation", libs.findLibrary("androidx-compose-ui-test-manifest").get())
     }
 }

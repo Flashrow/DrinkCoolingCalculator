@@ -13,6 +13,7 @@ class HiltConventionPlugin : Plugin<Project>{
         with(target){
             with(pluginManager){
                 apply("com.google.dagger.hilt.android")
+                apply("com.google.devtools.ksp")
             }
 
             extensions.configure<KaptExtension> {

@@ -57,4 +57,5 @@ dependencies {
 
     implementation(rootProject.project(":core:designsystem"))
     implementation(rootProject.project(":feature:calculator"))
+    implementation(rootProject.project(":navigation"))
 }

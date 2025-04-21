@@ -1,4 +1,4 @@
-package pl.flashrow.calculator.presentation.setparams
+package pl.flashrow.calculator.presentation.calculator
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -38,10 +38,13 @@ internal class CalculatorViewModel @Inject constructor(
         }
     }
 
-    private fun eventDispatcher(event: CalculatorContract.Event): Any = when (event) {
+    private suspend fun eventDispatcher(event: CalculatorContract.Event): Any = when (event) {
         CalculatorContract.Event.Init -> init()
         is CalculatorContract.Event.UpdateSelectedDrinkType -> selectDrinkType(event.drinkType)
         is CalculatorContract.Event.UpdateSelectedContainerType -> selectContainerType(event.containerType)
+        CalculatorContract.Event.Calculate -> {
+            eventChannel.send(CalculatorContract.Effect.NavigateToResult)
+        }
     }
 
     private fun init() {

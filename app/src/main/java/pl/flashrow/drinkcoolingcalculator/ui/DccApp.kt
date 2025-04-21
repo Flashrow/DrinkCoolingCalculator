@@ -9,7 +9,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import pl.flashrow.designsystem.component.DccBackground
-import pl.flashrow.drinkcoolingcalculator.navigation.DccNavHost
+import pl.flashrow.navigation.DestinationsRoot
 
 @Composable
 fun DccApp(
@@ -20,9 +20,7 @@ fun DccApp(
 ) {
     DccBackground {
         val snackbarHostState = remember { SnackbarHostState() }
-        DccNavHost(appState = appState)
-
-//            DestinationsNavHost(navGraph = NavGraphs.root)
+        DestinationsRoot()
     }
 }
 
