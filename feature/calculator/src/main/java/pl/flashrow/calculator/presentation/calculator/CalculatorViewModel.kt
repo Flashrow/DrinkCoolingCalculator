@@ -10,8 +10,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import pl.flashrow.dcc.core.model.BeverageType
 import pl.flashrow.dcc.core.model.ContainerType
-import pl.flashrow.dcc.core.model.DrinkType
+import pl.flashrow.dcc.core.model.CoolingEnvironment
+import pl.flashrow.domain.calculator.CalculateCoolingTimeUseCase
 import pl.flashrow.domain.calculator.GetContainerTypesUseCase
 import pl.flashrow.domain.calculator.GetCoolingPlaceTypesUseCase
 import pl.flashrow.domain.calculator.GetDrinkTypesUseCase
@@ -22,6 +24,7 @@ internal class CalculatorViewModel @Inject constructor(
     private val getDrinkTypesUseCase: GetDrinkTypesUseCase,
     private val getContainerTypesUseCase: GetContainerTypesUseCase,
     private val getCoolingPlaceTypesUseCase: GetCoolingPlaceTypesUseCase,
+    private val calculateCoolingTimeUseCase: CalculateCoolingTimeUseCase,
 ) : ViewModel() {
     private var _uiState = MutableStateFlow(CalculatorContract.State())
     val uiState: StateFlow<CalculatorContract.State> = _uiState
@@ -29,7 +32,7 @@ internal class CalculatorViewModel @Inject constructor(
     private val eventChannel = Channel<CalculatorContract.Effect>(Channel.BUFFERED)
     val eventsFlow = eventChannel.receiveAsFlow()
 
-    private lateinit var selectedDrinkType: DrinkType
+    private lateinit var selectedBeverageType: BeverageType
     private lateinit var selectedContainerType: ContainerType
 
     fun onEvent(event: CalculatorContract.Event) {
@@ -40,11 +43,10 @@ internal class CalculatorViewModel @Inject constructor(
 
     private suspend fun eventDispatcher(event: CalculatorContract.Event): Any = when (event) {
         CalculatorContract.Event.Init -> init()
-        is CalculatorContract.Event.UpdateSelectedDrinkType -> selectDrinkType(event.drinkType)
+        is CalculatorContract.Event.UpdateSelectedDrinkType -> selectBeverageType(event.beverageType)
         is CalculatorContract.Event.UpdateSelectedContainerType -> selectContainerType(event.containerType)
-        CalculatorContract.Event.Calculate -> {
-            eventChannel.send(CalculatorContract.Effect.NavigateToResult)
-        }
+        is CalculatorContract.Event.UpdateSelectedCoolingEnvironment -> selectCoolingEnvironment(event.coolingEnvironment)
+        CalculatorContract.Event.Calculate -> { calculateCoolingTime() }
     }
 
     private fun init() {
@@ -55,12 +57,12 @@ internal class CalculatorViewModel @Inject constructor(
             val coolingPlaceTypes = getCoolingPlaceTypesUseCase()
             _uiState.update { currentState ->
                 currentState.copy(
-                    drinkTypes = drinkTypes,
+                    beverageTypes = drinkTypes,
                     containerTypes = containerTypes,
-                    coolingPlaces = coolingPlaceTypes,
+                    coolingEnvironments = coolingPlaceTypes,
                 )
             }
-            selectDrinkType(drinkTypes.first())
+            selectBeverageType(drinkTypes.first())
             setLoading(false)
         }
     }
@@ -73,18 +75,56 @@ internal class CalculatorViewModel @Inject constructor(
         }
     }
 
-    private fun selectDrinkType(drinkType: DrinkType) {
-        selectedDrinkType = drinkType
-        Log.d("CalculatorViewModel", "Selected drink type: $drinkType")
+    private fun selectBeverageType(beverageType: BeverageType) {
+        _uiState.update { currentState ->
+            currentState.copy(
+                selectedBeverageType = selectedBeverageType,
+            )
+        }
+        Log.d("CalculatorViewModel", "Selected drink type: $beverageType")
     }
 
     private fun selectContainerType(containerType: ContainerType) {
-        selectedContainerType = containerType
         _uiState.update { currentState ->
             currentState.copy(
                 selectedContainerType = selectedContainerType,
             )
         }
         Log.d("CalculatorViewModel", "Selected container type: $containerType")
+    }
+
+    private fun selectCoolingEnvironment(coolingEnvironment: CoolingEnvironment) {
+        _uiState.update { currentState ->
+            currentState.copy(
+                selectedCoolingEnvironment = coolingEnvironment,
+            )
+        }
+        Log.d("CalculatorViewModel", "Selected cooling environment: $coolingEnvironment")
+    }
+
+    private suspend fun calculateCoolingTime() {
+        if(_uiState.value.selectedBeverageType == null ||
+            _uiState.value.selectedContainerType == null ||
+            _uiState.value.selectedCoolingEnvironment == null ||
+            _uiState.value.beverageStartTemperature == null ||
+            _uiState.value.beverageTargetTemperature == null
+        ) {
+            return
+        }
+
+        val result = calculateCoolingTimeUseCase(
+            beverageType = _uiState.value.selectedBeverageType!!,
+            container = _uiState.value.selectedContainerType!!,
+            coolingEnvironment = _uiState.value.selectedCoolingEnvironment!!,
+            drinkStartTemperature = _uiState.value.beverageStartTemperature!!,
+            drinkTargetTemperature = _uiState.value.beverageTargetTemperature!!,
+        )
+        if(result.isSuccess){
+            Log.d("CalculatorViewModel", "Calculated cooling time: ${result.getOrNull()}")
+            eventChannel.send(CalculatorContract.Effect.NavigateToResult)
+        }
+        else {
+            Log.e("CalculatorViewModel", "Error calculating cooling time: ${result.exceptionOrNull()}")
+        }
     }
 }

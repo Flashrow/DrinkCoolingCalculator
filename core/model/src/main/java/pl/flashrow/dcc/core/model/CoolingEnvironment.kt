@@ -2,8 +2,9 @@ package pl.flashrow.dcc.core.model
 
 import pl.flashrow.dcc.core.enum.CoolingPlaceType
 
-data class CoolingPlace(
+data class CoolingEnvironment(
     val coolingPlaceType: CoolingPlaceType,
     val name: String,
-    val temperature: Int? = null,
+    val temperature: Double,
+    val convectionCoefficient: Double,
 )

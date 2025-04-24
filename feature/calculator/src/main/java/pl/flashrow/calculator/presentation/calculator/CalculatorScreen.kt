@@ -38,9 +38,9 @@ import pl.flashrow.calculator.presentation.calculator.components.ImageCarousel
 import pl.flashrow.calculator.presentation.calculator.components.SelectContainerSheet
 import pl.flashrow.calculator.presentation.calculator.components.TemperatureSlider
 import pl.flashrow.dcc.core.enum.CoolingPlaceType
+import pl.flashrow.dcc.core.model.BeverageType
 import pl.flashrow.dcc.core.model.ContainerType
-import pl.flashrow.dcc.core.model.CoolingPlace
-import pl.flashrow.dcc.core.model.DrinkType
+import pl.flashrow.dcc.core.model.CoolingEnvironment
 import pl.flashrow.dcc.feature.calculator.R
 import pl.flashrow.designsystem.Dimens
 import pl.flashrow.ui.DccThemedBackground
@@ -65,10 +65,10 @@ fun CalculatorScreen(navigation: CalculatorNavigation) {
     val state = viewModel.uiState.collectAsState().value
     if (state.isLoading == false)
         CalculatorContent(
-            drinkTypes = state.drinkTypes,
+            beverageTypes = state.beverageTypes,
             containerTypes = state.containerTypes,
             selectedContainerType = state.selectedContainerType,
-            coolingPlaces = state.coolingPlaces,
+            coolingEnvironments = state.coolingEnvironments,
         ) {
             viewModel.onEvent(it)
         }
@@ -78,9 +78,9 @@ fun CalculatorScreen(navigation: CalculatorNavigation) {
 
 @Composable
 private fun CalculatorContent(
-    drinkTypes: List<DrinkType>,
+    beverageTypes: List<BeverageType>,
     containerTypes: List<ContainerType>,
-    coolingPlaces: List<CoolingPlace>,
+    coolingEnvironments: List<CoolingEnvironment>,
     selectedContainerType: ContainerType? = null,
     onEvent: (CalculatorContract.Event) -> Unit,
 ) {
@@ -99,8 +99,8 @@ private fun CalculatorContent(
             )
             Spacer(modifier = Modifier.height(Dimens.verticalSectionMargin))
             TitleRow(Icons.Outlined.SportsBar, "Wybierz rodzaj napoju")
-            ImageCarousel(drinkTypes, onPageChange = {
-                onEvent(CalculatorContract.Event.UpdateSelectedDrinkType(drinkTypes[it]))
+            ImageCarousel(beverageTypes, onPageChange = {
+                onEvent(CalculatorContract.Event.UpdateSelectedDrinkType(beverageTypes[it]))
             })
             TitleRow(Icons.Outlined.Liquor, "Wybierz typ pojemnika")
             BaseOutlinedButton(
@@ -125,7 +125,7 @@ private fun CalculatorContent(
             TitleRow(Icons.Outlined.DeviceThermostat, "Temperatura początkowa napoju")
             TemperatureSlider()
             TitleRow(Icons.Outlined.Kitchen, "Gdzie schłodzisz napój?")
-            CoolingPlaceRadioGroup(coolingPlaces)
+            CoolingPlaceRadioGroup(coolingEnvironments)
             Spacer(modifier = Modifier.height(Dimens.verticalSectionMargin))
             TitleRow(Icons.Outlined.AcUnit, "Temperatura docelowa napoju")
             TemperatureSlider()
@@ -169,27 +169,27 @@ private fun TitleRow(icon: ImageVector, title: String) {
 private fun CalculatorPreview() {
     CalculatorContent(
         listOf(
-            DrinkType(
+            BeverageType(
                 resourceId = pl.flashrow.dcc.core.resources.R.drawable.beer_icon,
                 name = "Beer",
                 alcoholPercentage = 0.04f
             ),
-            DrinkType(
+            BeverageType(
                 resourceId = pl.flashrow.dcc.core.resources.R.drawable.spirit_icon,
                 name = "Spirit",
                 alcoholPercentage = 0.40f
             ),
-            DrinkType(
+            BeverageType(
                 resourceId = pl.flashrow.dcc.core.resources.R.drawable.wine_icon,
                 name = "Wine",
                 alcoholPercentage = 0.13f
             ),
-            DrinkType(
+            BeverageType(
                 resourceId = pl.flashrow.dcc.core.resources.R.drawable.tea_icon,
                 name = "Tea",
                 alcoholPercentage = 0f
             ),
-            DrinkType(
+            BeverageType(
                 resourceId = pl.flashrow.dcc.core.resources.R.drawable.soft_drink_icon,
                 name = "Soft drink",
                 alcoholPercentage = 0f
@@ -197,9 +197,9 @@ private fun CalculatorPreview() {
         ),
         emptyList(),
         listOf(
-            CoolingPlace(CoolingPlaceType.FRIDGE, "Fridge", 4),
-            CoolingPlace(CoolingPlaceType.FREEZER, "Freezer", -18),
-            CoolingPlace(CoolingPlaceType.CUSTOM, "Inna wartość", null),
+            CoolingEnvironment(CoolingPlaceType.FRIDGE, "Fridge", 4),
+            CoolingEnvironment(CoolingPlaceType.FREEZER, "Freezer", -18),
+            CoolingEnvironment(CoolingPlaceType.CUSTOM, "Inna wartość", null),
         )
     ) {}
 }

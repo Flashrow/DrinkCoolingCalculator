@@ -26,13 +26,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import pl.flashrow.dcc.core.enum.CoolingPlaceType
-import pl.flashrow.dcc.core.model.CoolingPlace
+import pl.flashrow.dcc.core.model.CoolingEnvironment
 import pl.flashrow.designsystem.Dimens
 import pl.flashrow.ui.widgets.BaseTextField
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CoolingPlaceRadioGroup(coolingPlaces: List<CoolingPlace>) {
+fun CoolingPlaceRadioGroup(coolingEnvironments: List<CoolingEnvironment>) {
     val scope = rememberCoroutineScope()
     var selectedCoolingPlace by remember { mutableStateOf<CoolingPlaceType?>(null) }
     val sheetState = rememberModalBottomSheetState()
@@ -42,7 +42,7 @@ fun CoolingPlaceRadioGroup(coolingPlaces: List<CoolingPlace>) {
         modifier = Modifier.padding(horizontal = Dimens.baseMargin)
     ) {
         Spacer(modifier = Modifier.padding(top = Dimens.smallMargin))
-        coolingPlaces.forEach { coolingPlace ->
+        coolingEnvironments.forEach { coolingPlace ->
             ContainerTypeRow(
                 name = coolingPlace.name,
                 temperature = coolingPlace.temperature,
@@ -121,10 +121,10 @@ private fun ContainerTypeRow(
 @Preview(showBackground = true)
 @Composable
 fun CoolingPlaceRadioGroupPreview() {
-    val sampleCoolingPlaces = listOf(
-        CoolingPlace(name = "Fridge", temperature = 4, coolingPlaceType = CoolingPlaceType.FRIDGE),
-        CoolingPlace(name = "Freezer", temperature = -18, coolingPlaceType = CoolingPlaceType.FREEZER),
-        CoolingPlace(name = "Room Temperature", temperature = 22, coolingPlaceType = CoolingPlaceType.CUSTOM),
+    val sampleCoolingEnvironments = listOf(
+        CoolingEnvironment(name = "Fridge", temperature = 4, coolingPlaceType = CoolingPlaceType.FRIDGE),
+        CoolingEnvironment(name = "Freezer", temperature = -18, coolingPlaceType = CoolingPlaceType.FREEZER),
+        CoolingEnvironment(name = "Room Temperature", temperature = 22, coolingPlaceType = CoolingPlaceType.CUSTOM),
     )
-    CoolingPlaceRadioGroup(coolingPlaces = sampleCoolingPlaces)
+    CoolingPlaceRadioGroup(coolingEnvironments = sampleCoolingEnvironments)
 }

@@ -34,19 +34,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import kotlinx.coroutines.launch
 import pl.flashrow.core.common.extension.getPercentageString
-import pl.flashrow.dcc.core.model.DrinkType
+import pl.flashrow.dcc.core.model.BeverageType
 import pl.flashrow.dcc.core.resources.R
 import kotlin.math.absoluteValue
 
 @Composable
-fun ImageCarousel(drinkTypes: List<DrinkType>, onPageChange: (Int) -> Unit){
-    ImageCarouselContent(drinkTypes, onPageChange)
+fun ImageCarousel(beverageTypes: List<BeverageType>, onPageChange: (Int) -> Unit){
+    ImageCarouselContent(beverageTypes, onPageChange)
 }
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 private fun ImageCarouselContent(
-    drinksList: List<DrinkType>,
+    drinksList: List<BeverageType>,
     onPageChange: (Int) -> Unit,
 ) {
     val pagerState = rememberPagerState(pageCount = {
@@ -98,7 +98,7 @@ private fun ImageCarouselContent(
 
 @Composable
 private fun CarouselItem(
-    drinkType: DrinkType,
+    beverageType: BeverageType,
     modifier: Modifier = Modifier,
 ) {
     Box(
@@ -106,8 +106,8 @@ private fun CarouselItem(
         contentAlignment = Alignment.BottomStart,
     ) {
         Image(
-            painter = painterResource(id = drinkType.resourceId),
-            contentDescription = drinkType.name,
+            painter = painterResource(id = beverageType.resourceId),
+            contentDescription = beverageType.name,
             contentScale = ContentScale.Crop,
             modifier = Modifier.matchParentSize()
         )
@@ -120,7 +120,7 @@ private fun CarouselItem(
                 ),
         ) {
             Text(
-                drinkType.name + " ~" + drinkType.alcoholPercentage.getPercentageString(),
+                beverageType.name + " ~" + beverageType.alcoholPercentage.getPercentageString(),
                 modifier = Modifier.padding(vertical = 4.dp, horizontal = 12.dp),
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.background
@@ -135,27 +135,27 @@ private fun CarouselItem(
 private fun ImageCarouselPreview() {
     ImageCarouselContent(
         listOf(
-            DrinkType(
+            BeverageType(
                 resourceId = R.drawable.beer_icon,
                 name = "Beer",
                 alcoholPercentage = 0.04f
             ),
-            DrinkType(
+            BeverageType(
                 resourceId = R.drawable.spirit_icon,
                 name = "Spirit",
                 alcoholPercentage = 0.40f
             ),
-            DrinkType(
+            BeverageType(
                 resourceId = R.drawable.wine_icon,
                 name = "Wine",
                 alcoholPercentage = 0.13f
             ),
-            DrinkType(
+            BeverageType(
                 resourceId = R.drawable.tea_icon,
                 name = "Tea",
                 alcoholPercentage = 0f
             ),
-            DrinkType(
+            BeverageType(
                 resourceId = R.drawable.soft_drink_icon,
                 name = "Soft drink",
                 alcoholPercentage = 0f
@@ -169,7 +169,7 @@ private fun ImageCarouselPreview() {
 @Composable
 private fun CarouselItemPreview() {
     CarouselItem(
-        DrinkType(
+        BeverageType(
             resourceId = R.drawable.beer_icon,
             name = "Beer",
             alcoholPercentage = 0.04f

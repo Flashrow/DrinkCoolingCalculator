@@ -1,11 +1,12 @@
 package pl.flashrow.dcc.core.mapper
 
-import pl.flashrow.data.model.CoolingPlaceDto
+import pl.flashrow.data.model.CoolingEnvironmentDto
 import pl.flashrow.dcc.core.enum.CoolingPlaceType
-import pl.flashrow.dcc.core.model.CoolingPlace
+import pl.flashrow.dcc.core.model.CoolingEnvironment
 
-fun mapCoolingPlaceTypeDtoToCoolingPlace(coolingPlaceDto: CoolingPlaceDto): CoolingPlace = CoolingPlace(
-    coolingPlaceType = CoolingPlaceType.valueOf(coolingPlaceDto.coolingPlaceType),
-    name = coolingPlaceDto.name,
-    temperature = coolingPlaceDto.temperature,
+fun mapCoolingPlaceTypeDtoToCoolingPlace(coolingEnvironmentDto: CoolingEnvironmentDto): CoolingEnvironment = CoolingEnvironment(
+    coolingPlaceType = CoolingPlaceType.valueOf(coolingEnvironmentDto.coolingPlaceType),
+    name = coolingEnvironmentDto.name,
+    temperature = coolingEnvironmentDto.temperature,
+    convectionCoefficient = coolingEnvironmentDto.convectionCoefficient,
 )

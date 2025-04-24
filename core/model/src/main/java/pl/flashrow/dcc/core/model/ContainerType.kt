@@ -6,4 +6,5 @@ data class ContainerType(
     val name: String,
     val capacityMl: Int,
     val material: Material,
+    val surfaceArea: Double, // surface are in m^2
 )

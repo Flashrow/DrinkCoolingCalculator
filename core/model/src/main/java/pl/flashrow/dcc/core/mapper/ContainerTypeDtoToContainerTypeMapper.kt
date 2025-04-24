@@ -7,7 +7,8 @@ import pl.flashrow.dcc.core.model.ContainerType
 fun mapContainerTypeDtoToContainerType(containerType: ContainerTypeDto): ContainerType = ContainerType(
     name = containerType.name,
     capacityMl = containerType.capacityMl,
-    material = mapMaterial(containerType.material)
+    material = mapMaterial(containerType.material),
+    surfaceArea = containerType.surfaceArea,
 )
 
 private fun mapMaterial(materialName: String): Material {

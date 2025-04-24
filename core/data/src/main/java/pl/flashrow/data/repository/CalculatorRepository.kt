@@ -1,11 +1,11 @@
 package pl.flashrow.data.repository
 
+import pl.flashrow.data.model.BeverageTypeDto
 import pl.flashrow.data.model.ContainerTypeDto
-import pl.flashrow.data.model.CoolingPlaceDto
-import pl.flashrow.data.model.DrinkTypeDto
+import pl.flashrow.data.model.CoolingEnvironmentDto
 
 interface CalculatorRepository {
-    fun getDrinkTypes() : List<DrinkTypeDto>
+    fun getDrinkTypes() : List<BeverageTypeDto>
     fun getContainerTypes() : List<ContainerTypeDto>
-    fun getCoolingPlaces() : List<CoolingPlaceDto>
+    fun getCoolingPlaces() : List<CoolingEnvironmentDto>
 }

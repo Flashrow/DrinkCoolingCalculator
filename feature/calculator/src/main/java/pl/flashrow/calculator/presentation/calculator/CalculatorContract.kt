@@ -1,23 +1,27 @@
 package pl.flashrow.calculator.presentation.calculator
 
+import pl.flashrow.dcc.core.model.BeverageType
 import pl.flashrow.dcc.core.model.ContainerType
-import pl.flashrow.dcc.core.model.CoolingPlace
-import pl.flashrow.dcc.core.model.DrinkType
+import pl.flashrow.dcc.core.model.CoolingEnvironment
 
 internal interface CalculatorContract {
     data class State(
-        val drinkTypes: List<DrinkType> = emptyList(),
+        val beverageTypes: List<BeverageType> = emptyList(),
         val containerTypes: List<ContainerType> = emptyList(),
-        val coolingPlaces: List<CoolingPlace> = emptyList(),
+        val coolingEnvironments: List<CoolingEnvironment> = emptyList(),
         val isLoading: Boolean? = null,
-        val selectedDrinkType: DrinkType? = null,
+        val selectedBeverageType: BeverageType? = null,
         val selectedContainerType: ContainerType? = null,
+        val selectedCoolingEnvironment: CoolingEnvironment? = null,
+        val beverageStartTemperature: Float? = null,
+        val beverageTargetTemperature: Float? = null,
     )
 
     sealed interface Event {
         data object Init : Event
-        data class UpdateSelectedDrinkType(val drinkType: DrinkType) : Event
+        data class UpdateSelectedDrinkType(val beverageType: BeverageType) : Event
         data class UpdateSelectedContainerType(val containerType: ContainerType) : Event
+        data class UpdateSelectedCoolingEnvironment(val coolingEnvironment: CoolingEnvironment) : Event
         data object Calculate : Event
     }
 
