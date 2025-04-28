@@ -34,7 +34,7 @@ class CalculateCoolingTimeUseCase @Inject constructor() {
         val c = beverageType.specificHeat // specific heat [J/(kg·K)]
         val rho = beverageType.density     // density [kg/m³]
         val A = container.surfaceArea  // surface [m²]
-        val V = container.capacityMl       // volume [m³]
+        val V = container.capacity       // volume [m³]
         val h = coolingEnvironment.convectionCoefficient // convection coefficient [W/(m²·K)][1, 2, 3]
 
         // 1. Heat capacity calculation (C) [J/K]

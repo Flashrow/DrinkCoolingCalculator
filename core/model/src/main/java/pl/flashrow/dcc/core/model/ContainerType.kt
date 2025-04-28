@@ -4,7 +4,7 @@ import pl.flashrow.dcc.core.enum.Material
 
 data class ContainerType(
     val name: String,
-    val capacityMl: Int,
+    val capacity: Double, // M^3
     val material: Material,
     val surfaceArea: Double, // surface are in m^2
 )

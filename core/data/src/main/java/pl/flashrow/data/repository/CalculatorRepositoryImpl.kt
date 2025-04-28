@@ -51,25 +51,25 @@ class CalculatorRepositoryImpl @Inject constructor() : CalculatorRepository {
         return listOf(
             ContainerTypeDto(
                 name = "Szklana butelka 500ml",
-                capacityMl = 500,
+                capacity = 0.0005,
                 material = "Glass",
                 surfaceArea = 0.0607,
             ),
             ContainerTypeDto(
                 name = "Plastikowa butelka 500ml",
-                capacityMl = 500,
+                capacity = 0.0005,
                 material = "Plastic",
                 surfaceArea = 0.0505,
             ),
             ContainerTypeDto(
                 name = "Puszka 330ml",
-                capacityMl = 330,
+                capacity = 0.00033,
                 material = "Metal",
                 surfaceArea = 0.0307,
             ),
             ContainerTypeDto(
                 name = "Puszka 500ml",
-                capacityMl = 500,
+                capacity = 0.0005,
                 material = "Metal",
                 surfaceArea = 0.0417,
             ),

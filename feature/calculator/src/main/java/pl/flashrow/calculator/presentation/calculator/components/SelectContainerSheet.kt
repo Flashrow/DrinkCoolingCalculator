@@ -138,19 +138,19 @@ fun SelectContainerSheetPreview() {
         containerTypes = listOf(
             ContainerType(
                 name = "Bottle",
-                capacityMl = 500,
+                capacity = 0.5,
                 material = Material.PLASTIC,
                 surfaceArea = 0.5,
             ),
             ContainerType(
                 name = "Can",
-                capacityMl = 330,
+                capacity = 0.33,
                 material = Material.METAL,
                 surfaceArea = 0.5,
             ),
             ContainerType(
                 name = "Can",
-                capacityMl = 330,
+                capacity = 0.33,
                 material = Material.METAL,
                 surfaceArea = 0.5,
             )
@@ -165,7 +165,7 @@ fun ContainerTypeRowPreview() {
     ContainerTypeRow(
         containerType = ContainerType(
             name = "Bottle",
-            capacityMl = 500,
+            capacity = 0.5,
             material = Material.PLASTIC,
             surfaceArea = 0.5,
         ),
