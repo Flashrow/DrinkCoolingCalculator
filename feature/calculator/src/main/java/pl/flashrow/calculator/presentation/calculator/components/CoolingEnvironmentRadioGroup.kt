@@ -32,7 +32,7 @@ import pl.flashrow.ui.widgets.BaseTextField
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CoolingPlaceRadioGroup(coolingEnvironments: List<CoolingEnvironment>) {
+fun CoolingEnvironmentRadioGroup(coolingEnvironments: List<CoolingEnvironment>, onChange: (CoolingEnvironment) -> Unit) {
     val scope = rememberCoroutineScope()
     var selectedCoolingPlace by remember { mutableStateOf<CoolingPlaceType?>(null) }
     val sheetState = rememberModalBottomSheetState()
@@ -42,13 +42,14 @@ fun CoolingPlaceRadioGroup(coolingEnvironments: List<CoolingEnvironment>) {
         modifier = Modifier.padding(horizontal = Dimens.baseMargin)
     ) {
         Spacer(modifier = Modifier.padding(top = Dimens.smallMargin))
-        coolingEnvironments.forEach { coolingPlace ->
+        coolingEnvironments.forEach { coolingEnvironment ->
             ContainerTypeRow(
-                name = coolingPlace.name,
-                temperature = coolingPlace.temperature,
-                isSelected = selectedCoolingPlace == coolingPlace.coolingPlaceType,
+                name = coolingEnvironment.name,
+                temperature = coolingEnvironment.temperature,
+                isSelected = selectedCoolingPlace == coolingEnvironment.coolingPlaceType,
                 onClick = {
-                    selectedCoolingPlace = coolingPlace.coolingPlaceType
+                    selectedCoolingPlace = coolingEnvironment.coolingPlaceType
+                    onChange(coolingEnvironment)
                 }
             )
         }
@@ -90,9 +91,9 @@ fun CoolingPlaceRadioGroup(coolingEnvironments: List<CoolingEnvironment>) {
 @Composable
 private fun ContainerTypeRow(
     name: String,
-    temperature: Int?,
+    temperature: Double,
     isSelected: Boolean,
-    onClick: (Int?) -> Unit
+    onClick: (Double?) -> Unit
 ) {
     Box(modifier = Modifier.clip(RoundedCornerShape(20.dp))) {
         Row(
@@ -122,9 +123,9 @@ private fun ContainerTypeRow(
 @Composable
 fun CoolingPlaceRadioGroupPreview() {
     val sampleCoolingEnvironments = listOf(
-        CoolingEnvironment(name = "Fridge", temperature = 4, coolingPlaceType = CoolingPlaceType.FRIDGE),
-        CoolingEnvironment(name = "Freezer", temperature = -18, coolingPlaceType = CoolingPlaceType.FREEZER),
-        CoolingEnvironment(name = "Room Temperature", temperature = 22, coolingPlaceType = CoolingPlaceType.CUSTOM),
+        CoolingEnvironment(name = "Fridge", temperature = 4.0, coolingPlaceType = CoolingPlaceType.FRIDGE, convectionCoefficient = 4.1),
+        CoolingEnvironment(name = "Freezer", temperature = -18.9, coolingPlaceType = CoolingPlaceType.FREEZER, convectionCoefficient = 4.1),
+        CoolingEnvironment(name = "Room Temperature", temperature = 22.1, coolingPlaceType = CoolingPlaceType.CUSTOM, convectionCoefficient = 4.1),
     )
-    CoolingPlaceRadioGroup(coolingEnvironments = sampleCoolingEnvironments)
+    CoolingEnvironmentRadioGroup(coolingEnvironments = sampleCoolingEnvironments, {})
 }

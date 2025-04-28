@@ -46,6 +46,8 @@ internal class CalculatorViewModel @Inject constructor(
         is CalculatorContract.Event.UpdateSelectedDrinkType -> selectBeverageType(event.beverageType)
         is CalculatorContract.Event.UpdateSelectedContainerType -> selectContainerType(event.containerType)
         is CalculatorContract.Event.UpdateSelectedCoolingEnvironment -> selectCoolingEnvironment(event.coolingEnvironment)
+        is CalculatorContract.Event.UpdateBeverageStartTemperature -> setBeverageStartTemperature(event.temperature)
+        is CalculatorContract.Event.UpdateBeverageTargetTemperature -> setBeverageTargetTemperature(event.temperature)
         CalculatorContract.Event.Calculate -> { calculateCoolingTime() }
     }
 
@@ -78,7 +80,7 @@ internal class CalculatorViewModel @Inject constructor(
     private fun selectBeverageType(beverageType: BeverageType) {
         _uiState.update { currentState ->
             currentState.copy(
-                selectedBeverageType = selectedBeverageType,
+                selectedBeverageType = beverageType,
             )
         }
         Log.d("CalculatorViewModel", "Selected drink type: $beverageType")
@@ -87,7 +89,7 @@ internal class CalculatorViewModel @Inject constructor(
     private fun selectContainerType(containerType: ContainerType) {
         _uiState.update { currentState ->
             currentState.copy(
-                selectedContainerType = selectedContainerType,
+                selectedContainerType = containerType,
             )
         }
         Log.d("CalculatorViewModel", "Selected container type: $containerType")
@@ -102,6 +104,22 @@ internal class CalculatorViewModel @Inject constructor(
         Log.d("CalculatorViewModel", "Selected cooling environment: $coolingEnvironment")
     }
 
+    private fun setBeverageStartTemperature(temperature: Float) {
+        _uiState.update { currentState ->
+            currentState.copy(
+                beverageStartTemperature = temperature,
+            )
+        }
+    }
+
+    private fun setBeverageTargetTemperature(temperature: Float) {
+        _uiState.update { currentState ->
+            currentState.copy(
+                beverageTargetTemperature = temperature,
+            )
+        }
+    }
+
     private suspend fun calculateCoolingTime() {
         if(_uiState.value.selectedBeverageType == null ||
             _uiState.value.selectedContainerType == null ||
@@ -109,6 +127,12 @@ internal class CalculatorViewModel @Inject constructor(
             _uiState.value.beverageStartTemperature == null ||
             _uiState.value.beverageTargetTemperature == null
         ) {
+            Log.e("CalculatorViewModel", "Missing required parameters for calculation, parameters: " +
+                    "selected Beverage type: ${_uiState.value.selectedBeverageType}, " +
+                    "selected Container type: ${_uiState.value.selectedContainerType}, " +
+                    "selected Cooling environment: ${_uiState.value.selectedCoolingEnvironment}, " +
+                    "beverage start temperature: ${_uiState.value.beverageStartTemperature}," +
+                    " beverage target temperature: ${_uiState.value.beverageTargetTemperature}")
             return
         }
 

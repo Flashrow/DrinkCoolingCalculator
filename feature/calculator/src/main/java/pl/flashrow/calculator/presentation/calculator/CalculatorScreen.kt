@@ -33,7 +33,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import pl.flashrow.calculator.presentation.calculator.components.CoolingPlaceRadioGroup
+import pl.flashrow.calculator.presentation.calculator.components.CoolingEnvironmentRadioGroup
 import pl.flashrow.calculator.presentation.calculator.components.ImageCarousel
 import pl.flashrow.calculator.presentation.calculator.components.SelectContainerSheet
 import pl.flashrow.calculator.presentation.calculator.components.TemperatureSlider
@@ -123,12 +123,22 @@ private fun CalculatorContent(
                 onClick = { showSelectContainerSheet = true }
             )
             TitleRow(Icons.Outlined.DeviceThermostat, "Temperatura początkowa napoju")
-            TemperatureSlider()
+            TemperatureSlider(
+                onTemperatureUpdate = { temperature ->
+                    onEvent(CalculatorContract.Event.UpdateBeverageStartTemperature(temperature))
+                }
+            )
             TitleRow(Icons.Outlined.Kitchen, "Gdzie schłodzisz napój?")
-            CoolingPlaceRadioGroup(coolingEnvironments)
+            CoolingEnvironmentRadioGroup(coolingEnvironments, onChange = { coolingPlace ->
+                onEvent(CalculatorContract.Event.UpdateSelectedCoolingEnvironment(coolingPlace))
+            })
             Spacer(modifier = Modifier.height(Dimens.verticalSectionMargin))
             TitleRow(Icons.Outlined.AcUnit, "Temperatura docelowa napoju")
-            TemperatureSlider()
+            TemperatureSlider(
+                onTemperatureUpdate = { temperature ->
+                    onEvent(CalculatorContract.Event.UpdateBeverageTargetTemperature(temperature))
+                }
+            )
             Spacer(modifier = Modifier.height(Dimens.verticalSectionMargin))
             BaseFilledButton("Oblicz", onClick = {
                 onEvent(CalculatorContract.Event.Calculate)
@@ -172,34 +182,44 @@ private fun CalculatorPreview() {
             BeverageType(
                 resourceId = pl.flashrow.dcc.core.resources.R.drawable.beer_icon,
                 name = "Beer",
-                alcoholPercentage = 0.04f
+                alcoholPercentage = 0.04f,
+                density = 1.01f,
+                specificHeat = 4.18f
             ),
             BeverageType(
                 resourceId = pl.flashrow.dcc.core.resources.R.drawable.spirit_icon,
                 name = "Spirit",
-                alcoholPercentage = 0.40f
+                alcoholPercentage = 0.40f,
+                density = 1.01f,
+                specificHeat = 4.18f
             ),
             BeverageType(
                 resourceId = pl.flashrow.dcc.core.resources.R.drawable.wine_icon,
                 name = "Wine",
-                alcoholPercentage = 0.13f
+                alcoholPercentage = 0.13f,
+                density = 1.01f,
+                specificHeat = 4.18f
             ),
             BeverageType(
                 resourceId = pl.flashrow.dcc.core.resources.R.drawable.tea_icon,
                 name = "Tea",
-                alcoholPercentage = 0f
+                alcoholPercentage = 0f,
+                density = 1.01f,
+                specificHeat = 4.18f
             ),
             BeverageType(
                 resourceId = pl.flashrow.dcc.core.resources.R.drawable.soft_drink_icon,
                 name = "Soft drink",
-                alcoholPercentage = 0f
+                alcoholPercentage = 0f,
+                density = 1.01f,
+                specificHeat = 4.18f
             ),
         ),
         emptyList(),
         listOf(
-            CoolingEnvironment(CoolingPlaceType.FRIDGE, "Fridge", 4),
-            CoolingEnvironment(CoolingPlaceType.FREEZER, "Freezer", -18),
-            CoolingEnvironment(CoolingPlaceType.CUSTOM, "Inna wartość", null),
+            CoolingEnvironment(CoolingPlaceType.FRIDGE, "Fridge", 4.0, 4.1),
+            CoolingEnvironment(CoolingPlaceType.FREEZER, "Freezer", -18.0, 1.2),
+            CoolingEnvironment(CoolingPlaceType.CUSTOM, "Inna wartość", 1.0,1.1),
         )
     ) {}
 }

@@ -138,27 +138,37 @@ private fun ImageCarouselPreview() {
             BeverageType(
                 resourceId = R.drawable.beer_icon,
                 name = "Beer",
-                alcoholPercentage = 0.04f
+                alcoholPercentage = 0.04f,
+                specificHeat = 4.18f,
+                density = 1.01f
             ),
             BeverageType(
                 resourceId = R.drawable.spirit_icon,
                 name = "Spirit",
-                alcoholPercentage = 0.40f
+                alcoholPercentage = 0.40f,
+                specificHeat = 4.18f,
+                density = 1.01f
             ),
             BeverageType(
                 resourceId = R.drawable.wine_icon,
                 name = "Wine",
-                alcoholPercentage = 0.13f
+                alcoholPercentage = 0.13f,
+                specificHeat = 4.18f,
+                density = 1.01f
             ),
             BeverageType(
                 resourceId = R.drawable.tea_icon,
                 name = "Tea",
-                alcoholPercentage = 0f
+                alcoholPercentage = 0f,
+                specificHeat = 4.18f,
+                density = 1.01f
             ),
             BeverageType(
                 resourceId = R.drawable.soft_drink_icon,
                 name = "Soft drink",
-                alcoholPercentage = 0f
+                alcoholPercentage = 0f,
+                specificHeat = 4.18f,
+                density = 1.01f
             ),
         ),
         onPageChange = {}
@@ -172,7 +182,9 @@ private fun CarouselItemPreview() {
         BeverageType(
             resourceId = R.drawable.beer_icon,
             name = "Beer",
-            alcoholPercentage = 0.04f
+            alcoholPercentage = 0.04f,
+            specificHeat = 4.18f,
+            density = 1.01f
         ),
     )
 }

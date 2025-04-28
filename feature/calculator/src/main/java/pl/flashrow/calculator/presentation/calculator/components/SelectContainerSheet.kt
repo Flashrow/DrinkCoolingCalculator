@@ -140,16 +140,19 @@ fun SelectContainerSheetPreview() {
                 name = "Bottle",
                 capacityMl = 500,
                 material = Material.PLASTIC,
+                surfaceArea = 0.5,
             ),
             ContainerType(
                 name = "Can",
                 capacityMl = 330,
                 material = Material.METAL,
+                surfaceArea = 0.5,
             ),
             ContainerType(
                 name = "Can",
                 capacityMl = 330,
                 material = Material.METAL,
+                surfaceArea = 0.5,
             )
         ),
         {},
@@ -164,6 +167,7 @@ fun ContainerTypeRowPreview() {
             name = "Bottle",
             capacityMl = 500,
             material = Material.PLASTIC,
+            surfaceArea = 0.5,
         ),
         selectedContainerType = null,
         onClick = {}

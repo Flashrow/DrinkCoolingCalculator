@@ -22,6 +22,8 @@ internal interface CalculatorContract {
         data class UpdateSelectedDrinkType(val beverageType: BeverageType) : Event
         data class UpdateSelectedContainerType(val containerType: ContainerType) : Event
         data class UpdateSelectedCoolingEnvironment(val coolingEnvironment: CoolingEnvironment) : Event
+        data class UpdateBeverageStartTemperature(val temperature: Float) : Event
+        data class UpdateBeverageTargetTemperature(val temperature: Float) : Event
         data object Calculate : Event
     }
 

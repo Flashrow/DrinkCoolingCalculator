@@ -34,7 +34,7 @@ import pl.flashrow.ui.widgets.BaseTextField
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TemperatureSlider() {
+fun TemperatureSlider(onTemperatureUpdate: ((Float) -> Unit)) {
     var sliderPosition by remember { mutableFloatStateOf(0f) }
     var textFieldValue by remember { mutableStateOf(sliderPosition.toString()) }
     val interactionSource = remember { MutableInteractionSource() }
@@ -69,6 +69,7 @@ fun TemperatureSlider() {
             onValueChange = {
                 sliderPosition = Math.round(it * 2) / 2.0f
                 textFieldValue = sliderPosition.toString()
+                onTemperatureUpdate(sliderPosition)
             },
             valueRange = 0f..100f,
             interactionSource = interactionSource,
@@ -114,5 +115,5 @@ fun TemperatureSlider() {
 @Preview(showBackground = true)
 @Composable
 fun TemperatureSliderPreview() {
-    TemperatureSlider()
+    TemperatureSlider {}
 }
