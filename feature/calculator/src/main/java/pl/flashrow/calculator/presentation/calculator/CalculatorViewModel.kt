@@ -145,7 +145,7 @@ internal class CalculatorViewModel @Inject constructor(
         )
         if(result.isSuccess){
             Log.d("CalculatorViewModel", "Calculated cooling time: ${result.getOrNull()}")
-            eventChannel.send(CalculatorContract.Effect.NavigateToResult)
+            eventChannel.send(CalculatorContract.Effect.NavigateToResult(result.getOrNull()!!))
         }
         else {
             Log.e("CalculatorViewModel", "Error calculating cooling time: ${result.exceptionOrNull()}")

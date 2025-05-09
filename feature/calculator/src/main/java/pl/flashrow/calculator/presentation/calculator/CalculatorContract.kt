@@ -3,6 +3,7 @@ package pl.flashrow.calculator.presentation.calculator
 import pl.flashrow.dcc.core.model.BeverageType
 import pl.flashrow.dcc.core.model.ContainerType
 import pl.flashrow.dcc.core.model.CoolingEnvironment
+import kotlin.time.Duration
 
 internal interface CalculatorContract {
     data class State(
@@ -28,7 +29,7 @@ internal interface CalculatorContract {
     }
 
     sealed interface Effect {
-        data object NavigateToResult : Effect
+        data class NavigateToResult(val coolingTime: Duration) : Effect
     }
 }
 

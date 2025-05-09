@@ -17,10 +17,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import pl.flashrow.core.common.extension.toHhMm
 import pl.flashrow.ui.widgets.BaseFilledButton
+import kotlin.time.Duration
 
 @Composable
-fun ResultsScreen() {
+fun ResultsScreen(coolingTime: Duration) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -47,7 +49,7 @@ fun ResultsScreen() {
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = "2:34h",
+                text = coolingTime.toHhMm(),
                 fontSize = 40.sp,
                 fontWeight = FontWeight.Bold
             )
@@ -74,5 +76,5 @@ fun ResultsScreen() {
 @Composable
 @Preview
 fun ResultsScreenPreview() {
-    ResultsScreen()
+    ResultsScreen(Duration.parse("20:30"))
 }

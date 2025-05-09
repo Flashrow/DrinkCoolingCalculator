@@ -57,7 +57,7 @@ fun CalculatorScreen(navigation: CalculatorNavigation) {
         viewModel.eventsFlow.collect {
             when (it) {
                 is CalculatorContract.Effect.NavigateToResult -> {
-                    navigation.navigateToResultsScreen()
+                    navigation.navigateToResultsScreen(it.coolingTime)
                 }
             }
         }
