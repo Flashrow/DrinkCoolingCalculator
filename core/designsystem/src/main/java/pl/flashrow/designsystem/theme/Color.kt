@@ -4,7 +4,7 @@ import androidx.compose.ui.graphics.Color
 
 val dccColorPrimary = Color(0xFF085A8C)
 val dccColorSecondary = Color(0xFF07244F)
-val dccColorTertiary = Color(0xFF085A8C)
+val dccColorTertiary = Color(0xFFEBB95D)
 val dccColorError = Color(0xFFA60F2B)
 val dccColorText = Color(0xFFFFFFFF)
 val dccColorSurface = Color(0xFFFCFDF8)

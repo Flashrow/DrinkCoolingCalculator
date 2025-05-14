@@ -95,7 +95,8 @@ private fun CalculatorContent(
         ) {
             Text(
                 stringResource(id = R.string.calculate_drink_cooling_time_title),
-                style = MaterialTheme.typography.headlineSmall
+                style = MaterialTheme.typography.headlineSmall,
+                modifier = Modifier.padding(top = Dimens.smallMargin)
             )
             Spacer(modifier = Modifier.height(Dimens.verticalSectionMargin))
             TitleRow(Icons.Outlined.SportsBar, "Wybierz rodzaj napoju")
