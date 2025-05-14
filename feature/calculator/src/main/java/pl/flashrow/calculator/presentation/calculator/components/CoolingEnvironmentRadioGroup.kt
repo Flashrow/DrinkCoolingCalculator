@@ -32,9 +32,13 @@ import pl.flashrow.ui.widgets.BaseTextField
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CoolingEnvironmentRadioGroup(coolingEnvironments: List<CoolingEnvironment>, onChange: (CoolingEnvironment) -> Unit) {
+fun CoolingEnvironmentRadioGroup(
+    coolingEnvironments: List<CoolingEnvironment>,
+    onChange: (CoolingEnvironment) -> Unit,
+    selectedCoolingEnvironment: CoolingEnvironment? = null,
+) {
     val scope = rememberCoroutineScope()
-    var selectedCoolingPlace by remember { mutableStateOf<CoolingPlaceType?>(null) }
+    var selectedCoolingPlace by remember { mutableStateOf(selectedCoolingEnvironment?.coolingPlaceType) }
     val sheetState = rememberModalBottomSheetState()
     var customValueText by remember { mutableStateOf("") }
 
@@ -123,9 +127,24 @@ private fun ContainerTypeRow(
 @Composable
 fun CoolingPlaceRadioGroupPreview() {
     val sampleCoolingEnvironments = listOf(
-        CoolingEnvironment(name = "Fridge", temperature = 4.0, coolingPlaceType = CoolingPlaceType.FRIDGE, convectionCoefficient = 4.1),
-        CoolingEnvironment(name = "Freezer", temperature = -18.9, coolingPlaceType = CoolingPlaceType.FREEZER, convectionCoefficient = 4.1),
-        CoolingEnvironment(name = "Room Temperature", temperature = 22.1, coolingPlaceType = CoolingPlaceType.CUSTOM, convectionCoefficient = 4.1),
+        CoolingEnvironment(
+            name = "Fridge",
+            temperature = 4.0,
+            coolingPlaceType = CoolingPlaceType.FRIDGE,
+            convectionCoefficient = 4.1
+        ),
+        CoolingEnvironment(
+            name = "Freezer",
+            temperature = -18.9,
+            coolingPlaceType = CoolingPlaceType.FREEZER,
+            convectionCoefficient = 4.1
+        ),
+        CoolingEnvironment(
+            name = "Room Temperature",
+            temperature = 22.1,
+            coolingPlaceType = CoolingPlaceType.CUSTOM,
+            convectionCoefficient = 4.1
+        ),
     )
     CoolingEnvironmentRadioGroup(coolingEnvironments = sampleCoolingEnvironments, {})
 }

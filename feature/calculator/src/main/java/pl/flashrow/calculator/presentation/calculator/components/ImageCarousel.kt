@@ -15,7 +15,6 @@ import androidx.compose.foundation.pager.PagerSnapDistance
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -39,15 +38,19 @@ import pl.flashrow.dcc.core.resources.R
 import kotlin.math.absoluteValue
 
 @Composable
-fun ImageCarousel(beverageTypes: List<BeverageType>, onPageChange: (Int) -> Unit){
-    ImageCarouselContent(beverageTypes, onPageChange)
+fun ImageCarousel(
+    beverageTypes: List<BeverageType>,
+    onPageChange: (Int) -> Unit,
+    selectedBeverageType: BeverageType? = null
+) {
+    ImageCarouselContent(beverageTypes, onPageChange, selectedBeverageType)
 }
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 private fun ImageCarouselContent(
     drinksList: List<BeverageType>,
     onPageChange: (Int) -> Unit,
+    selectedBeverageType: BeverageType? = null
 ) {
     val pagerState = rememberPagerState(pageCount = {
         drinksList.size
@@ -58,6 +61,10 @@ private fun ImageCarouselContent(
         pagerSnapDistance = PagerSnapDistance.atMost(1)
     )
     LaunchedEffect(pagerState) {
+        if (selectedBeverageType != null)
+            pagerState.animateScrollToPage(
+                page = drinksList.indexOf(selectedBeverageType),
+            )
         snapshotFlow { pagerState.currentPage }
             .collect { currentPage ->
                 onPageChange(currentPage)
@@ -89,8 +96,8 @@ private fun ImageCarouselContent(
                 },
             onClick = {
                 scope.launch { pagerState.animateScrollToPage(page) }
-                },
-            ) {
+            },
+        ) {
             CarouselItem(drinksList[page])
         }
     }

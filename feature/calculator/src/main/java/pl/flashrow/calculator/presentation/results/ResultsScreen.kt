@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.provider.AlarmClock
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,6 +11,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,7 +24,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator.popBackStack
 import pl.flashrow.core.common.extension.toHourSecondsText
 import pl.flashrow.designsystem.Dimens
 import pl.flashrow.ui.DccThemedBackground
@@ -31,16 +31,23 @@ import pl.flashrow.ui.widgets.BaseFilledButton
 import kotlin.time.Duration
 
 @Composable
-fun ResultsScreen(coolingTime: Duration) {
+fun ResultsScreen(
+    coolingTime: Duration,
+    navigation: ResultNavigation,
+) {
     val viewModel: ResultsViewModel = hiltViewModel()
     ResultScreenContent(
-        coolingTime = coolingTime
+        coolingTime = coolingTime,
+        navigateBack = {
+            navigation.navigateBack()
+        }
     )
 }
 
 @Composable
 private fun ResultScreenContent(
     coolingTime: Duration,
+    navigateBack: () -> Unit,
 ) {
     val context = LocalContext.current
     DccThemedBackground {
@@ -57,41 +64,49 @@ private fun ResultScreenContent(
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
-            Box(
+            Button(
                 modifier = Modifier
                     .size(350.dp)
                     .background(
                         MaterialTheme.colorScheme.tertiary,
                         shape = CircleShape
+                    ),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.tertiary,
+                    contentColor = MaterialTheme.colorScheme.onTertiary
+                ),
+                onClick = {
+                    setTimer(
+                        context = context,
+                        durationSeconds = coolingTime.inWholeSeconds.toInt()
                     )
-                    .clickable {
-                        setTimer(
-                            context = context,
-                            durationSeconds = coolingTime.inWholeSeconds.toInt()
-                        )
-                    },
-                contentAlignment = Alignment.Center
+                }
             ) {
-                Text(
-                    text = coolingTime.toHourSecondsText(),
-                    fontSize = 40.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onTertiary
-                )
-                Text(
-                    text = "Ustaw minutnik",
-                    modifier = Modifier
-                        .align(Alignment.BottomCenter)
-                        .padding(bottom = 30.dp),
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onTertiary
-                )
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                ) {
+                    Text(
+                        text = coolingTime.toHourSecondsText(),
+                        modifier = Modifier.align(Alignment.Center),
+                        fontSize = 40.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onTertiary,
+                    )
+                    Text(
+                        text = "Ustaw minutnik",
+                        modifier = Modifier
+                            .padding(bottom = 30.dp)
+                            .align(Alignment.BottomCenter),
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onTertiary
+                    )
+                }
             }
             BaseFilledButton(
                 text = "Oblicz ponownie",
                 modifier = Modifier.padding(bottom = Dimens.baseMargin),
-                onClick = { popBackStack() },
+                onClick = { navigateBack() },
             )
         }
     }
@@ -112,5 +127,8 @@ private fun setTimer(context: Context, durationSeconds: Int, message: String? = 
 @Composable
 @Preview
 fun ResultsScreenPreview() {
-    ResultScreenContent(Duration.parseIsoString("PT1H30M"))
+    ResultScreenContent(
+        coolingTime = Duration.parseIsoString("PT1H30M"),
+        navigateBack = {}
+    )
 }
