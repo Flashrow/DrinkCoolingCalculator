@@ -6,8 +6,9 @@ import com.ramcosta.composedestinations.annotation.RootGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import pl.flashrow.calculator.presentation.results.ResultsScreen
 import pl.flashrow.navigation.provided.ProvidedResultNavigation
+import pl.flashrow.navigation.transitions.ResultsScreenTransition
 
-@Destination<RootGraph>()
+@Destination<RootGraph>(style = ResultsScreenTransition::class)
 @Composable
 fun Results(navigator: DestinationsNavigator, result: ResultsNavArgs) {
     ResultsScreen(
