@@ -6,7 +6,7 @@ import pl.flashrow.dcc.core.model.CoolingEnvironment
 
 fun mapCoolingPlaceTypeDtoToCoolingPlace(coolingEnvironmentDto: CoolingEnvironmentDto): CoolingEnvironment = CoolingEnvironment(
     coolingPlaceType = CoolingPlaceType.valueOf(coolingEnvironmentDto.coolingPlaceType),
-    name = coolingEnvironmentDto.name,
+    nameResourceId = coolingEnvironmentDto.nameResourceId,
     temperature = coolingEnvironmentDto.temperature,
     convectionCoefficient = coolingEnvironmentDto.convectionCoefficient,
 )

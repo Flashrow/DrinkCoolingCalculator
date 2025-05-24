@@ -4,8 +4,8 @@ import pl.flashrow.data.model.BeverageTypeDto
 import pl.flashrow.dcc.core.model.BeverageType
 
 fun mapDrinkTypeDtoToDrinkType(drinkType: BeverageTypeDto): BeverageType = BeverageType(
-    resourceId = drinkType.resourceId,
-    name = drinkType.name,
+    iconResourceId = drinkType.resourceId,
+    nameResourceId = drinkType.nameResourceId,
     alcoholPercentage = drinkType.alcoholPercentage,
     specificHeat = drinkType.specificHeat,
     density = drinkType.density,

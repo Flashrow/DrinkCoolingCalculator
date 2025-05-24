@@ -43,7 +43,7 @@ import pl.flashrow.calculator.presentation.calculator.components.TemperatureSlid
 import pl.flashrow.dcc.core.enum.CoolingPlaceType
 import pl.flashrow.dcc.core.model.BeverageType
 import pl.flashrow.dcc.core.model.CoolingEnvironment
-import pl.flashrow.dcc.feature.calculator.R
+import pl.flashrow.dcc.core.resources.R
 import pl.flashrow.designsystem.Dimens
 import pl.flashrow.ui.DccThemedBackground
 import pl.flashrow.ui.widgets.BaseFilledButton
@@ -98,18 +98,18 @@ private fun CalculatorContent(
                 style = MaterialTheme.typography.headlineSmall,
             )
             Spacer(modifier = Modifier.height(Dimens.verticalSectionMargin))
-            TitleRow(Icons.Outlined.SportsBar, "Wybierz rodzaj napoju")
+            TitleRow(Icons.Outlined.SportsBar, stringResource(id = R.string.select_beverage_type))
             ImageCarousel(state.beverageTypes, onPageChange = {
                 onEvent(CalculatorContract.Event.UpdateSelectedDrinkType(state.beverageTypes[it]))
             })
-            TitleRow(Icons.Outlined.Liquor, "Wybierz typ pojemnika")
+            TitleRow(Icons.Outlined.Liquor, stringResource(id = R.string.select_container_type))
             BaseOutlinedButton(
-                "Wybierz",
+                text = stringResource(id = R.string.select),
                 child = if (state.selectedContainerType != null) {
                     {
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Text(
-                                state.selectedContainerType.name,
+                                stringResource(state.selectedContainerType.nameResourceId),
                                 modifier = Modifier.padding(end = Dimens.smallMargin)
                             )
                             Icon(
@@ -122,13 +122,13 @@ private fun CalculatorContent(
                 } else null,
                 onClick = { showSelectContainerSheet = true }
             )
-            TitleRow(Icons.Outlined.DeviceThermostat, "Temperatura początkowa napoju")
+            TitleRow(Icons.Outlined.DeviceThermostat, stringResource(id = R.string.initial_drink_temperature))
             TemperatureSlider(
                 onTemperatureUpdate = { temperature ->
                     onEvent(CalculatorContract.Event.UpdateBeverageStartTemperature(temperature))
                 }
             )
-            TitleRow(Icons.Outlined.Kitchen, "Gdzie schłodzisz napój?")
+            TitleRow(Icons.Outlined.Kitchen, stringResource(id = R.string.select_cooling_place_title))
             CoolingEnvironmentRadioGroup(
                 state.coolingEnvironments,
                 onChange = { coolingPlace ->
@@ -137,7 +137,7 @@ private fun CalculatorContent(
                 selectedCoolingEnvironment = state.selectedCoolingEnvironment
             )
             Spacer(modifier = Modifier.height(Dimens.verticalSectionMargin))
-            TitleRow(Icons.Outlined.AcUnit, "Temperatura docelowa napoju")
+            TitleRow(Icons.Outlined.AcUnit, stringResource(id = R.string.select_target_temperature_title))
             TemperatureSlider(
                 onTemperatureUpdate = { temperature ->
                     onEvent(CalculatorContract.Event.UpdateBeverageTargetTemperature(temperature))
@@ -145,7 +145,7 @@ private fun CalculatorContent(
                 selectedTemperature = state.beverageTargetTemperature
             )
             Spacer(modifier = Modifier.height(Dimens.verticalSectionMargin))
-            BaseFilledButton("Oblicz", onClick = {
+            BaseFilledButton(stringResource(R.string.calculate), onClick = {
                 onEvent(CalculatorContract.Event.Calculate)
             })
             Spacer(modifier = Modifier.height(100.dp))
@@ -192,36 +192,36 @@ private fun CalculatorPreview() {
         state = CalculatorContract.State(
             listOf(
                 BeverageType(
-                    resourceId = pl.flashrow.dcc.core.resources.R.drawable.beer_icon,
-                    name = "Beer",
+                    iconResourceId = R.drawable.beer_icon,
+                    nameResourceId = R.string.beer,
                     alcoholPercentage = 0.04f,
                     density = 1.01f,
                     specificHeat = 4.18f
                 ),
                 BeverageType(
-                    resourceId = pl.flashrow.dcc.core.resources.R.drawable.spirit_icon,
-                    name = "Spirit",
+                    iconResourceId = R.drawable.spirit_icon,
+                    nameResourceId = R.string.strong_alcohol,
                     alcoholPercentage = 0.40f,
                     density = 1.01f,
                     specificHeat = 4.18f
                 ),
                 BeverageType(
-                    resourceId = pl.flashrow.dcc.core.resources.R.drawable.wine_icon,
-                    name = "Wine",
+                    iconResourceId = R.drawable.wine_icon,
+                    nameResourceId = R.string.wine,
                     alcoholPercentage = 0.13f,
                     density = 1.01f,
                     specificHeat = 4.18f
                 ),
                 BeverageType(
-                    resourceId = pl.flashrow.dcc.core.resources.R.drawable.tea_icon,
-                    name = "Tea",
+                    iconResourceId = R.drawable.tea_icon,
+                    nameResourceId = R.string.tea,
                     alcoholPercentage = 0f,
                     density = 1.01f,
                     specificHeat = 4.18f
                 ),
                 BeverageType(
-                    resourceId = pl.flashrow.dcc.core.resources.R.drawable.soft_drink_icon,
-                    name = "Soft drink",
+                    iconResourceId = R.drawable.soft_drink_icon,
+                    nameResourceId = R.string.soft_drink,
                     alcoholPercentage = 0f,
                     density = 1.01f,
                     specificHeat = 4.18f
@@ -229,9 +229,9 @@ private fun CalculatorPreview() {
             ),
             emptyList(),
             listOf(
-                CoolingEnvironment(CoolingPlaceType.FRIDGE, "Fridge", 4.0, 4.1),
-                CoolingEnvironment(CoolingPlaceType.FREEZER, "Freezer", -18.0, 1.2),
-                CoolingEnvironment(CoolingPlaceType.CUSTOM, "Inna wartość", 1.0, 1.1),
+                CoolingEnvironment(CoolingPlaceType.FRIDGE, R.string.fridge, 4.0, 4.1),
+                CoolingEnvironment(CoolingPlaceType.FREEZER, R.string.fridge, -18.0, 1.2),
+                CoolingEnvironment(CoolingPlaceType.CUSTOM, R.string.custom_value, 1.0, 1.1),
             )
         )
     )

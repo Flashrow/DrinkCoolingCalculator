@@ -26,12 +26,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import pl.flashrow.dcc.core.enum.Material
 import pl.flashrow.dcc.core.model.ContainerType
+import pl.flashrow.dcc.core.resources.R
 import pl.flashrow.designsystem.Dimens
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -122,7 +124,7 @@ private fun ContainerTypeRow(
                 }
             )
             Text(
-                text = containerType.name,
+                text = stringResource(containerType.nameResourceId),
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.padding(start = Dimens.baseMargin)
             )
@@ -137,19 +139,19 @@ fun SelectContainerSheetPreview() {
         onSelect = {},
         containerTypes = listOf(
             ContainerType(
-                name = "Bottle",
+                nameResourceId = R.string.plastic_bottle_500,
                 capacity = 0.5,
                 material = Material.PLASTIC,
                 surfaceArea = 0.5,
             ),
             ContainerType(
-                name = "Can",
+                nameResourceId = R.string.can_330,
                 capacity = 0.33,
                 material = Material.METAL,
                 surfaceArea = 0.5,
             ),
             ContainerType(
-                name = "Can",
+                nameResourceId = R.string.can_500,
                 capacity = 0.33,
                 material = Material.METAL,
                 surfaceArea = 0.5,
@@ -164,7 +166,7 @@ fun SelectContainerSheetPreview() {
 fun ContainerTypeRowPreview() {
     ContainerTypeRow(
         containerType = ContainerType(
-            name = "Bottle",
+            nameResourceId = R.string.plastic_bottle_500,
             capacity = 0.5,
             material = Material.PLASTIC,
             surfaceArea = 0.5,
