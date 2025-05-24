@@ -19,12 +19,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import pl.flashrow.core.common.extension.toHourSecondsText
+import pl.flashrow.dcc.core.resources.R
 import pl.flashrow.designsystem.Dimens
 import pl.flashrow.ui.DccThemedBackground
 import pl.flashrow.ui.widgets.BaseFilledButton
@@ -59,7 +61,7 @@ private fun ResultScreenContent(
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
-                text = "Czas chłodzenia wynosi:",
+                text = stringResource(R.string.cooling_time_result_description),
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(bottom = 16.dp)
@@ -93,7 +95,7 @@ private fun ResultScreenContent(
                         color = MaterialTheme.colorScheme.onTertiary,
                     )
                     Text(
-                        text = "Ustaw minutnik",
+                        text = stringResource(R.string.setup_timer),
                         modifier = Modifier
                             .padding(bottom = 30.dp)
                             .align(Alignment.BottomCenter),
@@ -104,7 +106,7 @@ private fun ResultScreenContent(
                 }
             }
             BaseFilledButton(
-                text = "Oblicz ponownie",
+                text = stringResource(R.string.calculate_again),
                 modifier = Modifier.padding(bottom = Dimens.baseMargin),
                 onClick = { navigateBack() },
             )

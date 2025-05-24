@@ -23,10 +23,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import pl.flashrow.dcc.core.enum.CoolingPlaceType
 import pl.flashrow.dcc.core.model.CoolingEnvironment
+import pl.flashrow.dcc.core.resources.R
 import pl.flashrow.designsystem.Dimens
 import pl.flashrow.ui.widgets.BaseTextField
 
@@ -48,7 +50,7 @@ fun CoolingEnvironmentRadioGroup(
         Spacer(modifier = Modifier.padding(top = Dimens.smallMargin))
         coolingEnvironments.forEach { coolingEnvironment ->
             ContainerTypeRow(
-                name = coolingEnvironment.name,
+                name = stringResource(coolingEnvironment.nameResourceId),
                 temperature = coolingEnvironment.temperature,
                 isSelected = selectedCoolingPlace == coolingEnvironment.coolingPlaceType,
                 onClick = {
@@ -73,7 +75,7 @@ fun CoolingEnvironmentRadioGroup(
                     }
                 )
                 Text(
-                    text = "Inna wartość:",
+                    text = stringResource(R.string.custom_value),
                     style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier.padding(start = Dimens.baseMargin)
                 )
@@ -128,19 +130,19 @@ private fun ContainerTypeRow(
 fun CoolingPlaceRadioGroupPreview() {
     val sampleCoolingEnvironments = listOf(
         CoolingEnvironment(
-            name = "Fridge",
+            nameResourceId = R.string.fridge,
             temperature = 4.0,
             coolingPlaceType = CoolingPlaceType.FRIDGE,
             convectionCoefficient = 4.1
         ),
         CoolingEnvironment(
-            name = "Freezer",
+            nameResourceId = R.string.freezer,
             temperature = -18.9,
             coolingPlaceType = CoolingPlaceType.FREEZER,
             convectionCoefficient = 4.1
         ),
         CoolingEnvironment(
-            name = "Room Temperature",
+            nameResourceId = R.string.room_temperature,
             temperature = 22.1,
             coolingPlaceType = CoolingPlaceType.CUSTOM,
             convectionCoefficient = 4.1

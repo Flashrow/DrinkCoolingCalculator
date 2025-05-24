@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="calculate_drink_cooling_time_title">Calculate drink cooling time</string>
+    <string name="cooling_time_result_description">Cooling time is:</string>
+    <string name="setup_timer">Set timer</string>
+    <string name="calculate_again">Calculate again</string>
+    <string name="select_beverage_type">Select beverage type</string>
+    <string name="select_container_type">Select container type</string>
+    <string name="initial_drink_temperature">Initial drink temperature</string>
+    <string name="select_cooling_place_title">Where will you cool the drink?</string>
+    <string name="select_target_temperature_title">Target drink temperature</string>
+    <string name="beer">Beer</string>
+    <string name="strong_alcohol">Strong alcohol</string>
+    <string name="wine">Wine</string>
+    <string name="tea">Tea</string>
+    <string name="soft_drink">Soft drink</string>
+    <string name="glass_bottle_500">Glass bottle 500ml</string>
+    <string name="plastic_bottle_500">Plastic bottle 500ml</string>
+    <string name="can_330">Can 330ml</string>
+    <string name="can_500">Can 500ml</string>
+    <string name="fridge">Fridge</string>
+    <string name="freezer">Freezer</string>
+    <string name="custom_value">Other value:</string>
+    <string name="room_temperature">Room Temperature</string>
+    <string name="select">Select</string>
+    <string name="calculate">Oblicz</string>
+</resources>

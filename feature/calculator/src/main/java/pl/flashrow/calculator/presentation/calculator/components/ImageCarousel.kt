@@ -28,6 +28,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
@@ -113,8 +114,8 @@ private fun CarouselItem(
         contentAlignment = Alignment.BottomStart,
     ) {
         Image(
-            painter = painterResource(id = beverageType.resourceId),
-            contentDescription = beverageType.name,
+            painter = painterResource(id = beverageType.iconResourceId),
+            contentDescription = stringResource(beverageType.nameResourceId),
             contentScale = ContentScale.Crop,
             modifier = Modifier.matchParentSize()
         )
@@ -127,7 +128,7 @@ private fun CarouselItem(
                 ),
         ) {
             Text(
-                beverageType.name + " ~" + beverageType.alcoholPercentage.getPercentageString(),
+                stringResource(beverageType.nameResourceId) + " ~" + beverageType.alcoholPercentage.getPercentageString(),
                 modifier = Modifier.padding(vertical = 4.dp, horizontal = 12.dp),
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.background
@@ -143,36 +144,36 @@ private fun ImageCarouselPreview() {
     ImageCarouselContent(
         listOf(
             BeverageType(
-                resourceId = R.drawable.beer_icon,
-                name = "Beer",
+                iconResourceId = R.drawable.beer_icon,
+                nameResourceId = R.string.beer,
                 alcoholPercentage = 0.04f,
                 specificHeat = 4.18f,
                 density = 1.01f
             ),
             BeverageType(
-                resourceId = R.drawable.spirit_icon,
-                name = "Spirit",
+                iconResourceId = R.drawable.spirit_icon,
+                nameResourceId = R.string.strong_alcohol,
                 alcoholPercentage = 0.40f,
                 specificHeat = 4.18f,
                 density = 1.01f
             ),
             BeverageType(
-                resourceId = R.drawable.wine_icon,
-                name = "Wine",
+                iconResourceId = R.drawable.wine_icon,
+                nameResourceId = R.string.wine,
                 alcoholPercentage = 0.13f,
                 specificHeat = 4.18f,
                 density = 1.01f
             ),
             BeverageType(
-                resourceId = R.drawable.tea_icon,
-                name = "Tea",
+                iconResourceId = R.drawable.tea_icon,
+                nameResourceId = R.string.tea,
                 alcoholPercentage = 0f,
                 specificHeat = 4.18f,
                 density = 1.01f
             ),
             BeverageType(
-                resourceId = R.drawable.soft_drink_icon,
-                name = "Soft drink",
+                iconResourceId = R.drawable.soft_drink_icon,
+                nameResourceId = R.string.soft_drink,
                 alcoholPercentage = 0f,
                 specificHeat = 4.18f,
                 density = 1.01f
@@ -187,8 +188,8 @@ private fun ImageCarouselPreview() {
 private fun CarouselItemPreview() {
     CarouselItem(
         BeverageType(
-            resourceId = R.drawable.beer_icon,
-            name = "Beer",
+            iconResourceId = R.drawable.beer_icon,
+            nameResourceId = R.string.beer,
             alcoholPercentage = 0.04f,
             specificHeat = 4.18f,
             density = 1.01f

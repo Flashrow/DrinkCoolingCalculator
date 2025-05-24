@@ -11,4 +11,5 @@ android {
 
 dependencies {
     implementation(rootProject.project(":core:common"))
+    implementation(rootProject.project(":core:resources"))
 }
