@@ -57,8 +57,10 @@ fun CalculatorScreen(navigation: CalculatorNavigation) {
     val scrollState = rememberScrollState()
     val state = viewModel.uiState.collectAsState().value
     var showAnimation by remember { mutableStateOf(false) }
+    var onAnimationEndAction by remember { mutableStateOf<(() -> Unit)?>(null) }
 
-    fun playCelebrationAnimation() {
+    fun playCelebrationAnimation(onEnd: (() -> Unit)? = null) {
+        onAnimationEndAction = onEnd
         showAnimation = true
     }
 
@@ -67,11 +69,13 @@ fun CalculatorScreen(navigation: CalculatorNavigation) {
         viewModel.eventsFlow.collect {
             when (it) {
                 is CalculatorContract.Effect.NavigateToResult -> {
-                    playCelebrationAnimation()
-                    CoroutineScope(this.coroutineContext).launch {
-                        scrollState.animateScrollTo(0)
-                    }
-                    navigation.navigateToResultsScreen(it.coolingTime)
+                    // Pass the navigation logic as the onEnd action
+                    playCelebrationAnimation(onEnd = {
+                        CoroutineScope(this.coroutineContext).launch {
+                            scrollState.animateScrollTo(0)
+                        }
+                        navigation.navigateToResultsScreen(it.coolingTime)
+                    })
                 }
             }
         }
@@ -83,7 +87,11 @@ fun CalculatorScreen(navigation: CalculatorNavigation) {
             onEvent = viewModel::onEvent,
             scrollState = scrollState,
             showAnimation = showAnimation,
-            onAnimationEnd = { showAnimation = false }
+            onAnimationEnd = {
+                showAnimation = false
+                onAnimationEndAction?.invoke()
+                onAnimationEndAction = null // Reset the action after invoking
+            }
         )
     else
         BaseLoading()
@@ -111,7 +119,7 @@ private fun CalculatorContent(
                     restartOnPlay = true,
                     iterations = 1,
                     modifier = Modifier.size(200.dp).align(Alignment.CenterHorizontally),
-                    onAnimationEnd = onAnimationEnd
+                    onAnimationEnd = onAnimationEnd // This lambda now handles invoking onAnimationEndAction
                 )
             }
             Text(
