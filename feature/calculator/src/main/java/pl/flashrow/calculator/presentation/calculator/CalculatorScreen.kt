@@ -40,6 +40,7 @@ import pl.flashrow.calculator.presentation.calculator.components.CoolingEnvironm
 import pl.flashrow.calculator.presentation.calculator.components.ImageCarousel
 import pl.flashrow.calculator.presentation.calculator.components.SelectContainerSheet
 import pl.flashrow.calculator.presentation.calculator.components.TemperatureSlider
+import pl.flashrow.core.ui.LottieAnimationPlayer
 import pl.flashrow.dcc.core.enum.CoolingPlaceType
 import pl.flashrow.dcc.core.model.BeverageType
 import pl.flashrow.dcc.core.model.CoolingEnvironment
@@ -55,6 +56,7 @@ fun CalculatorScreen(navigation: CalculatorNavigation) {
     val viewModel: CalculatorViewModel = hiltViewModel()
     val scrollState = rememberScrollState()
     val state = viewModel.uiState.collectAsState().value
+    var showAnimation by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         viewModel.onEvent(CalculatorContract.Event.Init)
@@ -75,6 +77,8 @@ fun CalculatorScreen(navigation: CalculatorNavigation) {
             state = state,
             onEvent = viewModel::onEvent,
             scrollState = scrollState,
+            showAnimation = showAnimation,
+            onShowAnimationChange = { showAnimation = it }
         )
     else
         BaseLoading()
@@ -85,6 +89,8 @@ private fun CalculatorContent(
     state: CalculatorContract.State,
     onEvent: (CalculatorContract.Event) -> Unit,
     scrollState: ScrollState,
+    showAnimation: Boolean,
+    onShowAnimationChange: (Boolean) -> Unit,
 ) {
     var showSelectContainerSheet by remember { mutableStateOf(false) }
     DccThemedBackground {
@@ -93,6 +99,15 @@ private fun CalculatorContent(
                 .padding(horizontal = Dimens.baseMargin)
                 .verticalScroll(scrollState)
         ) {
+            if (showAnimation) {
+                LottieAnimationPlayer(
+                    animationResId = R.raw.placeholder_animation, // This will cause a compiler error until the resource is added
+                    isPlaying = true,
+                    restartOnPlay = true,
+                    iterations = 1,
+                    modifier = Modifier.size(200.dp).align(Alignment.CenterHorizontally)
+                )
+            }
             Text(
                 stringResource(id = R.string.calculate_drink_cooling_time_title),
                 style = MaterialTheme.typography.headlineSmall,
@@ -146,6 +161,7 @@ private fun CalculatorContent(
             )
             Spacer(modifier = Modifier.height(Dimens.verticalSectionMargin))
             BaseFilledButton(stringResource(R.string.calculate), onClick = {
+                onShowAnimationChange(true) // Show animation first
                 onEvent(CalculatorContract.Event.Calculate)
             })
             Spacer(modifier = Modifier.height(100.dp))
