@@ -97,7 +97,7 @@ fun CalculatorScreen(navigation: CalculatorNavigation) {
             isPlaying = true,
             restartOnPlay = true,
             iterations = 1,
-            speed = 8f,
+            speed = 10f,
             modifier = Modifier.fillMaxHeight(),
             contentScale = ContentScale.Crop,
             onAnimationEnd = { onAnimationEndAction?.invoke() }
