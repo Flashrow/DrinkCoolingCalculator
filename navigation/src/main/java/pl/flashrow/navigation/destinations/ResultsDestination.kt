@@ -8,7 +8,7 @@ import pl.flashrow.calculator.presentation.results.ResultsScreen
 import pl.flashrow.navigation.Transitions
 import pl.flashrow.navigation.provided.ProvidedResultNavigation
 
-@Destination<RootGraph>(style = Transitions.slideOver::class) // Add this style
+@Destination<RootGraph>(style = Transitions.SlideOver::class)
 @Composable
 fun Results(navigator: DestinationsNavigator, result: ResultsNavArgs) {
     ResultsScreen(
