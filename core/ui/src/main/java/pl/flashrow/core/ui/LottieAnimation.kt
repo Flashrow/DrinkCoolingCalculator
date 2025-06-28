@@ -8,6 +8,9 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberUpdatedState
+
 @Composable
 fun LottieAnimationPlayer(
     modifier: Modifier = Modifier,
@@ -15,7 +18,8 @@ fun LottieAnimationPlayer(
     isPlaying: Boolean = true,
     restartOnPlay: Boolean = true,
     speed: Float = 1f,
-    iterations: Int = 1
+    iterations: Int = 1,
+    onAnimationEnd: () -> Unit = {}
 ) {
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(animationResId))
     val progress by animateLottieCompositionAsState(
@@ -25,6 +29,13 @@ fun LottieAnimationPlayer(
         speed = speed,
         iterations = iterations
     )
+    val currentOnAnimationEnd by rememberUpdatedState(onAnimationEnd)
+
+    LaunchedEffect(progress) {
+        if (progress == 1f) { // Animation considered ended when progress reaches 1f
+            currentOnAnimationEnd()
+        }
+    }
 
     LottieAnimation(
         composition = composition,

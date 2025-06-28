@@ -58,12 +58,16 @@ fun CalculatorScreen(navigation: CalculatorNavigation) {
     val state = viewModel.uiState.collectAsState().value
     var showAnimation by remember { mutableStateOf(false) }
 
+    fun playCelebrationAnimation() {
+        showAnimation = true
+    }
+
     LaunchedEffect(Unit) {
         viewModel.onEvent(CalculatorContract.Event.Init)
         viewModel.eventsFlow.collect {
             when (it) {
                 is CalculatorContract.Effect.NavigateToResult -> {
-                    showAnimation = true // Show animation
+                    playCelebrationAnimation()
                     CoroutineScope(this.coroutineContext).launch {
                         scrollState.animateScrollTo(0)
                     }
@@ -79,6 +83,7 @@ fun CalculatorScreen(navigation: CalculatorNavigation) {
             onEvent = viewModel::onEvent,
             scrollState = scrollState,
             showAnimation = showAnimation,
+            onAnimationEnd = { showAnimation = false }
         )
     else
         BaseLoading()
@@ -90,6 +95,7 @@ private fun CalculatorContent(
     onEvent: (CalculatorContract.Event) -> Unit,
     scrollState: ScrollState,
     showAnimation: Boolean,
+    onAnimationEnd: () -> Unit,
 ) {
     var showSelectContainerSheet by remember { mutableStateOf(false) }
     DccThemedBackground {
@@ -104,7 +110,8 @@ private fun CalculatorContent(
                     isPlaying = true,
                     restartOnPlay = true,
                     iterations = 1,
-                    modifier = Modifier.size(200.dp).align(Alignment.CenterHorizontally)
+                    modifier = Modifier.size(200.dp).align(Alignment.CenterHorizontally),
+                    onAnimationEnd = onAnimationEnd
                 )
             }
             Text(
