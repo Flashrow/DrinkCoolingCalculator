@@ -4,6 +4,7 @@ import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -30,6 +31,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -40,6 +42,7 @@ import pl.flashrow.calculator.presentation.calculator.components.CoolingEnvironm
 import pl.flashrow.calculator.presentation.calculator.components.ImageCarousel
 import pl.flashrow.calculator.presentation.calculator.components.SelectContainerSheet
 import pl.flashrow.calculator.presentation.calculator.components.TemperatureSlider
+import pl.flashrow.core.ui.LottieAnimationPlayer
 import pl.flashrow.dcc.core.enum.CoolingPlaceType
 import pl.flashrow.dcc.core.model.BeverageType
 import pl.flashrow.dcc.core.model.CoolingEnvironment
@@ -55,16 +58,25 @@ fun CalculatorScreen(navigation: CalculatorNavigation) {
     val viewModel: CalculatorViewModel = hiltViewModel()
     val scrollState = rememberScrollState()
     val state = viewModel.uiState.collectAsState().value
+    var showAnimation by remember { mutableStateOf(false) }
+    var onAnimationEndAction by remember { mutableStateOf<(() -> Unit)?>(null) }
+
+    fun playCelebrationAnimation(onEnd: (() -> Unit)? = null) {
+        onAnimationEndAction = onEnd
+        showAnimation = true
+    }
 
     LaunchedEffect(Unit) {
         viewModel.onEvent(CalculatorContract.Event.Init)
         viewModel.eventsFlow.collect {
             when (it) {
                 is CalculatorContract.Effect.NavigateToResult -> {
-                    CoroutineScope(this.coroutineContext).launch {
-                        scrollState.animateScrollTo(0)
-                    }
-                    navigation.navigateToResultsScreen(it.coolingTime)
+                    playCelebrationAnimation(onEnd = {
+                        CoroutineScope(this.coroutineContext).launch {
+                            scrollState.animateScrollTo(0)
+                        }
+                        navigation.navigateToResultsScreen(it.coolingTime)
+                    })
                 }
             }
         }
@@ -78,6 +90,19 @@ fun CalculatorScreen(navigation: CalculatorNavigation) {
         )
     else
         BaseLoading()
+
+    if (showAnimation) {
+        LottieAnimationPlayer(
+            animationResId = R.raw.lottie_snowfall,
+            isPlaying = true,
+            restartOnPlay = true,
+            iterations = 1,
+            speed = 8f,
+            modifier = Modifier.fillMaxHeight(),
+            contentScale = ContentScale.Crop,
+            onAnimationEnd = { onAnimationEndAction?.invoke() }
+        )
+    }
 }
 
 @Composable
