@@ -63,6 +63,7 @@ fun CalculatorScreen(navigation: CalculatorNavigation) {
         viewModel.eventsFlow.collect {
             when (it) {
                 is CalculatorContract.Effect.NavigateToResult -> {
+                    showAnimation = true // Show animation
                     CoroutineScope(this.coroutineContext).launch {
                         scrollState.animateScrollTo(0)
                     }
@@ -78,7 +79,6 @@ fun CalculatorScreen(navigation: CalculatorNavigation) {
             onEvent = viewModel::onEvent,
             scrollState = scrollState,
             showAnimation = showAnimation,
-            onShowAnimationChange = { showAnimation = it }
         )
     else
         BaseLoading()
@@ -90,7 +90,6 @@ private fun CalculatorContent(
     onEvent: (CalculatorContract.Event) -> Unit,
     scrollState: ScrollState,
     showAnimation: Boolean,
-    onShowAnimationChange: (Boolean) -> Unit,
 ) {
     var showSelectContainerSheet by remember { mutableStateOf(false) }
     DccThemedBackground {
@@ -161,7 +160,6 @@ private fun CalculatorContent(
             )
             Spacer(modifier = Modifier.height(Dimens.verticalSectionMargin))
             BaseFilledButton(stringResource(R.string.calculate), onClick = {
-                onShowAnimationChange(true) // Show animation first
                 onEvent(CalculatorContract.Event.Calculate)
             })
             Spacer(modifier = Modifier.height(100.dp))

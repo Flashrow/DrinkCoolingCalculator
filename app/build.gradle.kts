@@ -58,5 +58,4 @@ dependencies {
     implementation(rootProject.project(":core:designsystem"))
     implementation(rootProject.project(":feature:calculator"))
     implementation(rootProject.project(":navigation"))
-    implementation("com.airbnb.android:lottie-compose:6.1.0")
 }
