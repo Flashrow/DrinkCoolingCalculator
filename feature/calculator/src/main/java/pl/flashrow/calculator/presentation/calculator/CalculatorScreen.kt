@@ -4,6 +4,7 @@ import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -30,6 +31,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -69,7 +71,6 @@ fun CalculatorScreen(navigation: CalculatorNavigation) {
         viewModel.eventsFlow.collect {
             when (it) {
                 is CalculatorContract.Effect.NavigateToResult -> {
-                    // Pass the navigation logic as the onEnd action
                     playCelebrationAnimation(onEnd = {
                         CoroutineScope(this.coroutineContext).launch {
                             scrollState.animateScrollTo(0)
@@ -86,15 +87,22 @@ fun CalculatorScreen(navigation: CalculatorNavigation) {
             state = state,
             onEvent = viewModel::onEvent,
             scrollState = scrollState,
-            showAnimation = showAnimation,
-            onAnimationEnd = {
-                showAnimation = false
-                onAnimationEndAction?.invoke()
-                onAnimationEndAction = null // Reset the action after invoking
-            }
         )
     else
         BaseLoading()
+
+    if (showAnimation) {
+        LottieAnimationPlayer(
+            animationResId = R.raw.lottie_snowfall,
+            isPlaying = true,
+            restartOnPlay = true,
+            iterations = 1,
+            speed = 8f,
+            modifier = Modifier.fillMaxHeight(),
+            contentScale = ContentScale.Crop,
+            onAnimationEnd = { onAnimationEndAction?.invoke() }
+        )
+    }
 }
 
 @Composable
@@ -102,8 +110,6 @@ private fun CalculatorContent(
     state: CalculatorContract.State,
     onEvent: (CalculatorContract.Event) -> Unit,
     scrollState: ScrollState,
-    showAnimation: Boolean,
-    onAnimationEnd: () -> Unit,
 ) {
     var showSelectContainerSheet by remember { mutableStateOf(false) }
     DccThemedBackground {
@@ -112,16 +118,6 @@ private fun CalculatorContent(
                 .padding(horizontal = Dimens.baseMargin)
                 .verticalScroll(scrollState)
         ) {
-            if (showAnimation) {
-                LottieAnimationPlayer(
-                    animationResId = R.raw.placeholder_animation, // This will cause a compiler error until the resource is added
-                    isPlaying = true,
-                    restartOnPlay = true,
-                    iterations = 1,
-                    modifier = Modifier.size(200.dp).align(Alignment.CenterHorizontally),
-                    onAnimationEnd = onAnimationEnd // This lambda now handles invoking onAnimationEndAction
-                )
-            }
             Text(
                 stringResource(id = R.string.calculate_drink_cooling_time_title),
                 style = MaterialTheme.typography.headlineSmall,

@@ -1,15 +1,15 @@
 package pl.flashrow.core.ui
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
-
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberUpdatedState
 
 @Composable
 fun LottieAnimationPlayer(
@@ -19,6 +19,7 @@ fun LottieAnimationPlayer(
     restartOnPlay: Boolean = true,
     speed: Float = 1f,
     iterations: Int = 1,
+    contentScale: ContentScale = ContentScale.Fit,
     onAnimationEnd: () -> Unit = {}
 ) {
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(animationResId))
@@ -32,7 +33,7 @@ fun LottieAnimationPlayer(
     val currentOnAnimationEnd by rememberUpdatedState(onAnimationEnd)
 
     LaunchedEffect(progress) {
-        if (progress == 1f) { // Animation considered ended when progress reaches 1f
+        if (progress == 1f) {
             currentOnAnimationEnd()
         }
     }
@@ -40,6 +41,7 @@ fun LottieAnimationPlayer(
     LottieAnimation(
         composition = composition,
         progress = { progress },
-        modifier = modifier
+        modifier = modifier,
+        contentScale = contentScale
     )
 }
