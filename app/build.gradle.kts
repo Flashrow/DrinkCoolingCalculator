@@ -3,6 +3,7 @@ plugins {
     id("me.flashrow.application.compose")
     id("me.flashrow.hilt")
     id("me.flashrow.hilt.compose")
+    id("me.flashrow.android.secrets")
 }
 
 android {
@@ -46,6 +47,7 @@ dependencies {
     implementation(libs.androidx.compose.material3)
     implementation(libs.material3)
     implementation(libs.androidx.core.splashscreen)
+    implementation(libs.play.services.ads)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

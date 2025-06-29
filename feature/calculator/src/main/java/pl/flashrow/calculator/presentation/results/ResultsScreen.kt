@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -31,6 +32,9 @@ import pl.flashrow.designsystem.Dimens
 import pl.flashrow.ui.DccThemedBackground
 import pl.flashrow.ui.widgets.BaseFilledButton
 import kotlin.time.Duration
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdSize
+import com.google.android.gms.ads.AdView
 
 @Composable
 fun ResultsScreen(
@@ -105,6 +109,18 @@ private fun ResultScreenContent(
                     )
                 }
             }
+            // AdMob Banner
+            AndroidView(
+                modifier = Modifier.padding(bottom = Dimens.baseMargin),
+                factory = { context ->
+                    AdView(context).apply {
+                        setAdSize(AdSize.BANNER)
+                        // Use test Ad Unit ID. Replace with your actual Ad Unit ID for production.
+                        adUnitId = "ca-app-pub-3940256099942544/6300978111"
+                        loadAd(AdRequest.Builder().build())
+                    }
+                }
+            )
             BaseFilledButton(
                 text = stringResource(R.string.calculate_again),
                 modifier = Modifier.padding(bottom = Dimens.baseMargin),

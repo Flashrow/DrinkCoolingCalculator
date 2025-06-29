@@ -44,5 +44,9 @@ gradlePlugin {
             id = "me.flashrow.feature"
             implementationClass = "FeatureConventionPlugin"
         }
+        register("androidSecretsPlugin") {
+            id = "me.flashrow.android.secrets"
+            implementationClass = "AndroidSecretsConventionPlugin"
+        }
     }
 }
