@@ -36,6 +36,7 @@ import com.google.android.gms.ads.AdView
 import pl.flashrow.core.common.extension.toHourSecondsText
 import pl.flashrow.dcc.core.resources.R
 import pl.flashrow.dcc.feature.calculator.BuildConfig
+import pl.flashrow.designsystem.Dimens
 import pl.flashrow.ui.DccThemedBackground
 import pl.flashrow.ui.widgets.BaseFilledButton
 import kotlin.time.Duration
@@ -64,8 +65,7 @@ private fun ResultScreenContent(
     val adView = remember { AdView(context) }
     LaunchedEffect(adView) {
         adView.adUnitId = BuildConfig.RESULT_BANNER_AD_ID
-        val screenWidthDp = context.resources.configuration.screenWidthDp
-        val adSize = AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(context, screenWidthDp)
+        val adSize = AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(context, 360)
         adView.setAdSize(adSize)
         val adRequestBuilder = com.google.android.gms.ads.AdRequest.Builder()
         val adRequest = adRequestBuilder.build()
@@ -131,14 +131,14 @@ private fun ResultScreenContent(
                     modifier = Modifier
                         .fillMaxWidth()
                         .wrapContentSize()
-                        .padding(bottom = 20.dp)
+                        .padding(bottom = 10.dp)
                 ) {
                     AndroidView(modifier = Modifier.fillMaxWidth(), factory = { adView })
                 }
                 BaseFilledButton(
                     text = stringResource(R.string.calculate_again),
                     modifier = Modifier.padding(
-                        bottom = 30.dp,
+                        bottom = Dimens.baseMargin,
                         start = 16.dp,
                         end = 16.dp
                     ),

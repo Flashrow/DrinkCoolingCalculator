@@ -27,6 +27,7 @@ kotlinx-metadata-jvm = "0.9.0"
 lottie = "6.1.0"
 secrets-gradle-plugin = "2.0.1"
 play-services-ads = "24.4.0"
+lifecycle-process = "2.8.0"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
@@ -71,6 +72,7 @@ androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscree
 kotlinx-metadata-jvm = { module = "org.jetbrains.kotlinx:kotlinx-metadata-jvm", version.ref = "kotlinx-metadata-jvm" }
 lottie-compose = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottie" }
 play-services-ads = { group = "com.google.android.gms", name = "play-services-ads", version.ref = "play-services-ads" }
+androidx-lifecycle-process = { group = "androidx.lifecycle", name = "lifecycle-process", version.ref = "lifecycle-process" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
