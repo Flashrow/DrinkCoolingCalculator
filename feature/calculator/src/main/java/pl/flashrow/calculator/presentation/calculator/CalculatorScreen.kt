@@ -97,7 +97,7 @@ fun CalculatorScreen(navigation: CalculatorNavigation) {
             isPlaying = true,
             restartOnPlay = true,
             iterations = 1,
-            speed = 10f,
+            speed = 20f,
             modifier = Modifier.fillMaxHeight(),
             contentScale = ContentScale.Crop,
             onAnimationEnd = { onAnimationEndAction?.invoke() }
@@ -151,7 +151,8 @@ private fun CalculatorContent(
             TemperatureSlider(
                 onTemperatureUpdate = { temperature ->
                     onEvent(CalculatorContract.Event.UpdateBeverageStartTemperature(temperature))
-                }
+                },
+                selectedTemperature = state.beverageStartTemperature
             )
             TitleRow(Icons.Outlined.Kitchen, stringResource(id = R.string.select_cooling_place_title))
             CoolingEnvironmentRadioGroup(

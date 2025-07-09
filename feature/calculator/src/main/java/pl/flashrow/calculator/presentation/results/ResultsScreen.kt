@@ -1,5 +1,6 @@
 package pl.flashrow.calculator.presentation.results
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.provider.AlarmClock
@@ -8,14 +9,18 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -24,10 +29,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.google.android.gms.ads.AdSize
+import com.google.android.gms.ads.AdView
 import pl.flashrow.core.common.extension.toHourSecondsText
 import pl.flashrow.dcc.core.resources.R
-import pl.flashrow.designsystem.Dimens
+import pl.flashrow.dcc.feature.calculator.BuildConfig
 import pl.flashrow.ui.DccThemedBackground
 import pl.flashrow.ui.widgets.BaseFilledButton
 import kotlin.time.Duration
@@ -46,17 +54,29 @@ fun ResultsScreen(
     )
 }
 
+@SuppressLint("MissingPermission")
 @Composable
 private fun ResultScreenContent(
     coolingTime: Duration,
     navigateBack: () -> Unit,
 ) {
     val context = LocalContext.current
+    val adView = remember { AdView(context) }
+    LaunchedEffect(adView) {
+        adView.adUnitId = BuildConfig.RESULT_BANNER_AD_ID
+        val screenWidthDp = context.resources.configuration.screenWidthDp
+        val adSize = AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(context, screenWidthDp)
+        adView.setAdSize(adSize)
+        val adRequestBuilder = com.google.android.gms.ads.AdRequest.Builder()
+        val adRequest = adRequestBuilder.build()
+        adView.loadAd(adRequest)
+    }
+
     DccThemedBackground {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp),
+                .padding(vertical = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceBetween
         ) {
@@ -105,11 +125,26 @@ private fun ResultScreenContent(
                     )
                 }
             }
-            BaseFilledButton(
-                text = stringResource(R.string.calculate_again),
-                modifier = Modifier.padding(bottom = Dimens.baseMargin),
-                onClick = { navigateBack() },
-            )
+
+            Column {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentSize()
+                        .padding(bottom = 20.dp)
+                ) {
+                    AndroidView(modifier = Modifier.fillMaxWidth(), factory = { adView })
+                }
+                BaseFilledButton(
+                    text = stringResource(R.string.calculate_again),
+                    modifier = Modifier.padding(
+                        bottom = 30.dp,
+                        start = 16.dp,
+                        end = 16.dp
+                    ),
+                    onClick = { navigateBack() },
+                )
+            }
         }
     }
 }

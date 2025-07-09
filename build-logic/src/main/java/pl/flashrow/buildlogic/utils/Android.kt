@@ -17,6 +17,6 @@ internal fun configureAndroid(commonExtension: CommonExtension<*, *, *, *, *, *>
             targetCompatibility = JavaVersion.VERSION_17
         }
 
-        buildFeatures.buildConfig = false
+        buildFeatures.buildConfig = true
     }
 }

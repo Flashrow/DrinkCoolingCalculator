@@ -1,3 +1,11 @@
+import java.io.FileInputStream
+import java.util.Properties
+
+val localProperties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+localProperties.load(FileInputStream(localPropertiesFile))
+val resultBannerAdId: String = localProperties.getProperty("RESULT_BANNER_AD_ID")
+
 plugins {
     id("me.flashrow.feature")
     id("me.flashrow.library")
@@ -7,6 +15,9 @@ plugins {
 
 android {
     namespace = "pl.flashrow.dcc.feature.calculator"
+    defaultConfig{
+        buildConfigField("String", "RESULT_BANNER_AD_ID", "\"$resultBannerAdId\"")
+    }
 }
 
 dependencies {

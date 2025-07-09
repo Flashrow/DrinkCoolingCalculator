@@ -1,3 +1,12 @@
+import java.io.FileInputStream
+import java.util.Properties
+
+val localProperties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localProperties.load(FileInputStream(localPropertiesFile))
+}
+
 plugins {
     id("me.flashrow.application")
     id("me.flashrow.application.compose")
@@ -17,6 +26,7 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+        manifestPlaceholders["admobAppId"] = localProperties.getProperty("ADMOB_APP_ID", "")
     }
 
     buildTypes {
@@ -33,6 +43,7 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    buildFeatures.buildConfig = true
 }
 
 dependencies {
