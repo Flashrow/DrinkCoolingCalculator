@@ -6,6 +6,7 @@
     <string name="calculate_again">Calculate again</string>
     <string name="select_beverage_type">Select beverage type</string>
     <string name="select_container_type">Select container type</string>
+    <string name="select_container_type_description">If there is no suitable packaging on the list, choose the one that is closest.</string>
     <string name="initial_drink_temperature">Initial drink temperature</string>
     <string name="select_cooling_place_title">Where will you cool the drink?</string>
     <string name="select_target_temperature_title">Target drink temperature</string>

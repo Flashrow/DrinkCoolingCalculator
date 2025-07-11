@@ -6,6 +6,7 @@
     <string name="calculate_again">Oblicz ponownie</string>
     <string name="select_beverage_type">Wybierz rodzaj napoju</string>
     <string name="select_container_type">Wybierz typ pojemnika</string>
+    <string name="select_container_type_description">Jeżeli na liście nie ma odpowiedniego opakowania wybierz te, które jest najbardziej zbliżone</string>
     <string name="initial_drink_temperature">Temperatura początkowa napoju</string>
     <string name="select_cooling_place_title">Gdzie schłodzisz napój?</string>
     <string name="select_target_temperature_title">Temperatura docelowa napoju</string>

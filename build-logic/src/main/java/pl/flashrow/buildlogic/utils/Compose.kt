@@ -41,8 +41,8 @@ fun Project.configureCompose(
         add("implementation", libs.findLibrary("lottie-compose").get())
         add("implementation", libs.findLibrary("play-services-ads").get())
         add("implementation", libs.findLibrary("androidx-lifecycle-process").get())
+        add("implementation", libs.findLibrary("androidx-compose-ui-tooling").get())
 
-        add("debugImplementation", libs.findLibrary("androidx-compose-ui-tooling").get())
         add("debugImplementation", libs.findLibrary("androidx-compose-ui-test-manifest").get())
     }
 }

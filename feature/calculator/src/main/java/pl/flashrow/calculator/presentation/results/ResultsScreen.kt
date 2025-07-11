@@ -1,8 +1,10 @@
 package pl.flashrow.calculator.presentation.results
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.provider.AlarmClock
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -30,6 +32,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
@@ -149,13 +152,15 @@ private fun ResultScreenContent(
     }
 }
 
-private fun setTimer(context: Context, durationSeconds: Int, message: String? = null) {
+private fun setTimer(context: Context, durationSeconds: Int) {
     val intent = Intent(AlarmClock.ACTION_SET_TIMER).apply {
         putExtra(AlarmClock.EXTRA_LENGTH, durationSeconds)
-        if (message != null) {
-            putExtra(AlarmClock.EXTRA_MESSAGE, message)
-        }
     }
+    val permission = ContextCompat.checkSelfPermission(
+        context,
+        Manifest.permission.SET_ALARM
+    ) == PackageManager.PERMISSION_GRANTED
+    permission
     if (intent.resolveActivity(context.packageManager) != null) {
         context.startActivity(intent)
     }

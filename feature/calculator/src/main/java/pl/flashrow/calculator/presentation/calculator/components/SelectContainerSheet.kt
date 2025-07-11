@@ -52,11 +52,11 @@ fun SelectContainerSheet(
             modifier = Modifier.padding(horizontal = Dimens.baseMargin)
         ) {
             Text(
-                text = "Wybierz rodzaj pojemnika",
+                text = stringResource(id = R.string.select_container_type),
                 style = MaterialTheme.typography.headlineSmall,
             )
             Text(
-                text = "Jeżeli na liście nie ma odpowiedniego opakowania wybierz te, które jest najbardziej zbliżone",
+                text = stringResource(id = R.string.select_container_type_description),
                 modifier = Modifier.padding(top = Dimens.baseMargin),
                 style = MaterialTheme.typography.bodyMedium,
             )
