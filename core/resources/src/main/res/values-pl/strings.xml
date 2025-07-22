@@ -19,10 +19,14 @@
     <string name="plastic_bottle_500">Plastikowa butelka 500ml</string>
     <string name="can_330">Puszka 330ml</string>
     <string name="can_500">Puszka 500ml</string>
-    <string name="fridge">Lodówka</string>
-    <string name="freezer">Zamrażarka</string>
+    <string name="fridge">Lodówka (4°C)</string>
+    <string name="freezer">Zamrażarka (-18°C)</string>
     <string name="custom_value">Inna wartość:</string>
     <string name="room_temperature">Room Temperature</string>
     <string name="select">Wybierz</string>
     <string name="calculate">Oblicz</string>
+    <string name="error_no_container_selected">Nie wybrano pojemnika</string>
+    <string name="error_no_cooling_place_selected">Nie wybrano miejsca chłodzenia</string>
+    <string name="error_target_temperature_higher_than_initial">Temperatura docelowa nie może być wyższa niż temperatura początkowa</string>
+    <string name="error_cooling_place_temperature_higher_than_target">Temperatura otoczenia nie może być wyższa niż temperatura docelowa</string>
 </resources>

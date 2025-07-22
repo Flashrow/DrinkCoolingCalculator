@@ -32,9 +32,6 @@ internal class CalculatorViewModel @Inject constructor(
     private val eventChannel = Channel<CalculatorContract.Effect>(Channel.BUFFERED)
     val eventsFlow = eventChannel.receiveAsFlow()
 
-    private lateinit var selectedBeverageType: BeverageType
-    private lateinit var selectedContainerType: ContainerType
-
     fun onEvent(event: CalculatorContract.Event) {
         viewModelScope.launch {
             eventDispatcher(event)
@@ -45,10 +42,21 @@ internal class CalculatorViewModel @Inject constructor(
         CalculatorContract.Event.Init -> init()
         is CalculatorContract.Event.UpdateSelectedDrinkType -> selectBeverageType(event.beverageType)
         is CalculatorContract.Event.UpdateSelectedContainerType -> selectContainerType(event.containerType)
-        is CalculatorContract.Event.UpdateSelectedCoolingEnvironment -> selectCoolingEnvironment(event.coolingEnvironment)
-        is CalculatorContract.Event.UpdateBeverageStartTemperature -> setBeverageStartTemperature(event.temperature)
-        is CalculatorContract.Event.UpdateBeverageTargetTemperature -> setBeverageTargetTemperature(event.temperature)
-        CalculatorContract.Event.Calculate -> { calculateCoolingTime() }
+        is CalculatorContract.Event.UpdateSelectedCoolingEnvironment -> selectCoolingEnvironment(
+            event.coolingEnvironment
+        )
+
+        is CalculatorContract.Event.UpdateBeverageStartTemperature -> setBeverageStartTemperature(
+            event.temperature
+        )
+
+        is CalculatorContract.Event.UpdateBeverageTargetTemperature -> setBeverageTargetTemperature(
+            event.temperature
+        )
+
+        CalculatorContract.Event.Calculate -> {
+            calculateCoolingTime()
+        }
     }
 
     private fun init() {
@@ -121,18 +129,21 @@ internal class CalculatorViewModel @Inject constructor(
     }
 
     private suspend fun calculateCoolingTime() {
-        if(_uiState.value.selectedBeverageType == null ||
+        validate()
+        if (_uiState.value.selectedBeverageType == null ||
             _uiState.value.selectedContainerType == null ||
             _uiState.value.selectedCoolingEnvironment == null ||
             _uiState.value.beverageStartTemperature == null ||
             _uiState.value.beverageTargetTemperature == null
         ) {
-            Log.e("CalculatorViewModel", "Missing required parameters for calculation, parameters: " +
-                    "selected Beverage type: ${_uiState.value.selectedBeverageType}, " +
-                    "selected Container type: ${_uiState.value.selectedContainerType}, " +
-                    "selected Cooling environment: ${_uiState.value.selectedCoolingEnvironment}, " +
-                    "beverage start temperature: ${_uiState.value.beverageStartTemperature}," +
-                    " beverage target temperature: ${_uiState.value.beverageTargetTemperature}")
+            Log.e(
+                "CalculatorViewModel", "Missing required parameters for calculation, parameters: " +
+                        "selected Beverage type: ${_uiState.value.selectedBeverageType}, " +
+                        "selected Container type: ${_uiState.value.selectedContainerType}, " +
+                        "selected Cooling environment: ${_uiState.value.selectedCoolingEnvironment}, " +
+                        "beverage start temperature: ${_uiState.value.beverageStartTemperature}," +
+                        " beverage target temperature: ${_uiState.value.beverageTargetTemperature}"
+            )
             return
         }
 
@@ -143,12 +154,63 @@ internal class CalculatorViewModel @Inject constructor(
             drinkStartTemperature = _uiState.value.beverageStartTemperature!!,
             drinkTargetTemperature = _uiState.value.beverageTargetTemperature!!,
         )
-        if(result.isSuccess){
+        if (result.isSuccess) {
             Log.d("CalculatorViewModel", "Calculated cooling time: ${result.getOrNull()}")
             eventChannel.send(CalculatorContract.Effect.NavigateToResult(result.getOrNull()!!))
+        } else {
+            Log.e(
+                "CalculatorViewModel",
+                "Error calculating cooling time: ${result.exceptionOrNull()}"
+            )
         }
-        else {
-            Log.e("CalculatorViewModel", "Error calculating cooling time: ${result.exceptionOrNull()}")
+    }
+
+    private fun validate(): Boolean {
+        var isValid = true
+        if (_uiState.value.selectedContainerType == null) {
+            _uiState.update { currentState ->
+                currentState.copy(
+                    containerTypeNotSelectedValidator = true
+                )
+            }
+            isValid = false
+        } else {
+            _uiState.update { currentState ->
+                currentState.copy(
+                    containerTypeNotSelectedValidator = false
+                )
+            }
         }
+        if (_uiState.value.selectedCoolingEnvironment == null) {
+            _uiState.update { currentState ->
+                currentState.copy(
+                    coolingEnvironmentNotSelectedValidator = true
+                )
+            }
+            isValid = false
+        } else {
+            _uiState.update { currentState ->
+                currentState.copy(
+                    coolingEnvironmentNotSelectedValidator = false
+                )
+            }
+        }
+        if ((_uiState.value.beverageTargetTemperature ?: 0f) > (_uiState.value.beverageStartTemperature
+                ?: 0f)
+        ) {
+            viewModelScope.launch {
+                eventChannel.send(CalculatorContract.Effect.TargetTemperatureExceeded)
+            }
+            isValid = false
+        }
+        if((_uiState.value.selectedCoolingEnvironment?.temperature ?: 0.0) > (_uiState.value.beverageTargetTemperature
+                ?: 0f)
+        ) {
+            viewModelScope.launch {
+                eventChannel.send(CalculatorContract.Effect.CoolingEnvironmentTemperatureLowerThanTarget)
+            }
+            isValid = false
+        }
+        return isValid
     }
 }

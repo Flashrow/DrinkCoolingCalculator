@@ -19,10 +19,14 @@
     <string name="plastic_bottle_500">Plastic bottle 500ml</string>
     <string name="can_330">Can 330ml</string>
     <string name="can_500">Can 500ml</string>
-    <string name="fridge">Fridge</string>
-    <string name="freezer">Freezer</string>
+    <string name="fridge">Fridge (4°C)</string>
+    <string name="freezer">Freezer (-18°C)</string>
     <string name="custom_value">Other value:</string>
     <string name="room_temperature">Room Temperature</string>
     <string name="select">Select</string>
-    <string name="calculate">Oblicz</string>
+    <string name="calculate">Calculate</string>
+    <string name="error_no_container_selected">Container not selected</string>
+    <string name="error_no_cooling_place_selected">Cooling place not selected</string>
+    <string name="error_target_temperature_higher_than_initial">Target temperature cannot be higher than initial temperature</string>
+    <string name="error_cooling_place_temperature_higher_than_target">Cooling environment temperature cannot be higher than target temperature</string>
 </resources>

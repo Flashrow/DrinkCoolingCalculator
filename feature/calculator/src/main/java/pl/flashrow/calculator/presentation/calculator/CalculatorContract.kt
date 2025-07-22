@@ -16,6 +16,8 @@ internal interface CalculatorContract {
         val selectedCoolingEnvironment: CoolingEnvironment? = null,
         val beverageStartTemperature: Float? = null,
         val beverageTargetTemperature: Float? = null,
+        val containerTypeNotSelectedValidator: Boolean = false,
+        val coolingEnvironmentNotSelectedValidator: Boolean = false,
     )
 
     sealed interface Event {
@@ -30,6 +32,9 @@ internal interface CalculatorContract {
 
     sealed interface Effect {
         data class NavigateToResult(val coolingTime: Duration) : Effect
+        interface ErrorSnackbar : Effect
+        data object TargetTemperatureExceeded : ErrorSnackbar
+        data object CoolingEnvironmentTemperatureLowerThanTarget : ErrorSnackbar
     }
 }
 

@@ -16,18 +16,19 @@ fun BaseOutlinedButton(
     text: String = "",
     child: (@Composable () -> Unit)? = null,
     onClick: () -> Unit,
-    enabled: Boolean = true
+    enabled: Boolean = true,
+    isError: Boolean = false,
 ) {
     OutlinedButton(
         onClick = onClick,
         modifier = Modifier.height(Dimens.buttonHeight).fillMaxWidth(),
         enabled = enabled,
-        border = BorderStroke(Dimens.borderWidth, MaterialTheme.colorScheme.primary),
+        border = BorderStroke(Dimens.borderWidth,if(isError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary),
     ) {
         if(child != null) {
             child()
         } else {
-            Text(text = text, color = MaterialTheme.colorScheme.primary)
+            Text(text = text, color = if(isError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary)
         }
     }
 }
