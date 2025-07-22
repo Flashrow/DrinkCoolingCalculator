@@ -19,8 +19,8 @@ android {
 
     defaultConfig {
         applicationId = "pl.flashrow.drinkcoolingcalculator"
-        versionCode = 3
-        versionName = "1.1"
+        versionCode = 4
+        versionName = "1.2"
         minSdk = 29
         targetSdk = 36
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
